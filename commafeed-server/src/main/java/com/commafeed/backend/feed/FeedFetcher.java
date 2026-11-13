@@ -66,7 +66,10 @@ public class FeedFetcher {
         } catch (FeedParsingException e) {
             if (extractFeedUrlFromHtml) {
                 String extractedUrl =
-                        extractFeedUrl(urlProviders, feedUrl, new String(result.content(), StandardCharsets.UTF_8));
+                        extractFeedUrl(
+                                urlProviders,
+                                result.urlAfterRedirect(),
+                                new String(result.content(), StandardCharsets.UTF_8));
                 if (StringUtils.isNotBlank(extractedUrl)) {
                     feedUrl = extractedUrl;
 

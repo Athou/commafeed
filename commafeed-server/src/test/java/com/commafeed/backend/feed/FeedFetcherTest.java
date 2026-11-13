@@ -9,15 +9,19 @@ import com.commafeed.backend.feed.parser.FeedParser;
 import com.commafeed.backend.feed.parser.FeedParser.FeedParsingException;
 import com.commafeed.backend.feed.parser.FeedParserResult;
 import com.commafeed.backend.urlprovider.FeedURLProvider;
+import com.commafeed.backend.urlprovider.InPageReferenceFeedURLProvider;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
@@ -57,6 +61,37 @@ class FeedFetcherTest {
 
         FeedFetcherResult result = fetcher.fetch(htmlUrl, true, null, null, null, null);
         Assertions.assertEquals("title", result.feed().title());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "https://example.com/blog/, feed.xml, https://example.com/blog/feed.xml",
+        "https://other.example.com/blog/, feed.xml, https://other.example.com/blog/feed.xml",
+        "https://other.example.com/blog/, /feed.xml, https://other.example.com/feed.xml",
+        "https://example.com/blog/, https://feeds.example.com/rss, https://feeds.example.com/rss"
+    })
+    void findsUrlInRedirectedPage(String redirectedUrl, String href, String expectedFeedUrl) throws Exception {
+        String originalUrl = "https://example.com/start";
+        byte[] html =
+                "<html><head><link type='application/rss+xml' href='%s'></head></html>"
+                        .formatted(href)
+                        .getBytes(StandardCharsets.UTF_8);
+        Mockito.when(getter.get(HttpGetter.HttpRequest.builder(originalUrl).build()))
+                .thenReturn(new HttpResult(html, "text/html", null, null, redirectedUrl, Duration.ZERO));
+        Mockito.when(parser.parse(redirectedUrl, html)).thenThrow(new FeedParsingException("invalid feed"));
+
+        byte[] feed = "feed".getBytes(StandardCharsets.UTF_8);
+        Mockito.when(getter.get(HttpGetter.HttpRequest.builder(expectedFeedUrl).build()))
+                .thenReturn(new HttpResult(feed, "application/rss+xml", null, null, expectedFeedUrl, Duration.ZERO));
+        FeedParserResult parsedFeed = new FeedParserResult("title", "link", "iconUrl", null, null, null, null);
+        Mockito.when(parser.parse(expectedFeedUrl, feed)).thenReturn(parsedFeed);
+
+        FeedFetcher redirectedFetcher = new FeedFetcher(parser, getter, List.of(new InPageReferenceFeedURLProvider()));
+        FeedFetcherResult result = redirectedFetcher.fetch(originalUrl, true, null, null, null, null);
+
+        Assertions.assertEquals(parsedFeed, result.feed());
+        Assertions.assertEquals(expectedFeedUrl, result.urlAfterRedirect());
+        Mockito.verify(getter).get(HttpGetter.HttpRequest.builder(expectedFeedUrl).build());
     }
 
     @Test

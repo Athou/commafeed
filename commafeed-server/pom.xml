@@ -460,7 +460,7 @@
         <dependency>
             <groupId>io.github.hakky54</groupId>
             <artifactId>ayza-for-apache5</artifactId>
-            <version>10.1.0</version>
+            <version>10.1.1</version>
         </dependency>
         <dependency>
             <groupId>com.github.seancfoley</groupId>

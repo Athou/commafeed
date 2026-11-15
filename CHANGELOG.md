@@ -1,5 +1,25 @@
 # Changelog
 
+## [7.5.0]
+
+- Empty categories are now restored when importing OPML files (#2364)
+- Speed up the building of the subscription tree by looking up unread counts in batches
+- Fix "mark all as read" ignoring the active search filter (#2354)
+- Fix "mark all as read" in tag views marking the wrong entries (#2374)
+- Fix infinite scroll not loading more search results when entries are already read (#2353)
+- Fix the loading state not being reset after failed entry requests
+- Fix feed discovery when the subscription URL redirects to an HTML page
+- Prevent moving a category into one of its own descendants (#2355)
+- Fix quadratic processing time when removing doctype declarations from feeds
+- Apply the query timeout to all database queries
+- Replace the custom context menu library with the Mantine context menu (#2380)
+- Use a settings icon for the feed controls button
+- Native executables are now built with Mandrel instead of GraalVM for better compatibility with Quarkus
+- Security: prevent users from referencing categories owned by other users
+- Security: invalidate existing sessions when a user changes their password
+- Security: escape the username in password recovery emails
+- Security: block the NAT64 local-use prefix (`64:ff9b:1::/48`) in SSRF protection
+
 ## [7.4.1]
 
 - Fix entries being marked as read when scrolling back to an entry that was explicitly marked as unread (#2337)

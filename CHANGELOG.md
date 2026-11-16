@@ -1,5 +1,9 @@
 # Changelog
 
+## [7.5.1]
+
+- Fix multiple entry context menus being open at the same time (#2393)
+
 ## [7.5.0]
 
 - Empty categories are now restored when importing OPML files (#2364)
@@ -286,12 +290,12 @@ compiled to a native binary, resulting in blazing fast startup times (around 0.3
 50M).
 
 - CommaFeed now has a different package for each supported database.
-    - If you are deploying CommaFeed with a precompiled package, please
-      read [this section of the README](https://github.com/Athou/commafeed/tree/master?tab=readme-ov-file#download-a-precompiled-package).
-    - If you are building CommaFeed from sources, please
-      read [this section of the README](https://github.com/Athou/commafeed/tree/master?tab=readme-ov-file#build-from-sources).
-    - If you are using the Docker image, please read the instructions on
-      the [Docker Hub page](https://hub.docker.com/r/athou/commafeed).
+  - If you are deploying CommaFeed with a precompiled package, please
+    read [this section of the README](https://github.com/Athou/commafeed/tree/master?tab=readme-ov-file#download-a-precompiled-package).
+  - If you are building CommaFeed from sources, please
+    read [this section of the README](https://github.com/Athou/commafeed/tree/master?tab=readme-ov-file#build-from-sources).
+  - If you are using the Docker image, please read the instructions on
+    the [Docker Hub page](https://hub.docker.com/r/athou/commafeed).
 - Due to the switch to Quarkus, the way CommaFeed is configured is very different (the `config.yml` file is gone).
   Please
   read [this section of the README](https://github.com/Athou/commafeed/tree/master?tab=readme-ov-file#configuration).
@@ -359,8 +363,8 @@ compiled to a native binary, resulting in blazing fast startup times (around 0.3
 ## [4.3.0]
 
 - h2 (the embedded database) has been upgraded to 2.2.224
-    - this version uses a different file format than 2.1.x, the first time you start CommaFeed with this version, the
-      database will be automatically converted to the new format
+  - this version uses a different file format than 2.1.x, the first time you start CommaFeed with this version, the
+    database will be automatically converted to the new format
 - add a setting to completely disable scrolling to selected entry (#1157)
 - add a css class reflecting the current view mode to ease custom css rules (#1232)
 - fix an issue that prevents new feeds from being added when mysql/mariadb is used as the database (#1239)

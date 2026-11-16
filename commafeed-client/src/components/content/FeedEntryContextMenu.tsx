@@ -1,8 +1,7 @@
 import { Trans } from "@lingui/react/macro"
 import { Menu } from "@mantine/core"
-import { type ReactElement, useEffect, useState } from "react"
+import type { ReactElement } from "react"
 import { TbArrowBarToDown, TbExternalLink, TbMail, TbMailOpened, TbRss, TbStar, TbStarOff } from "react-icons/tb"
-import { throttle } from "throttle-debounce"
 import { markEntriesUpToEntry, markEntry, starEntry } from "@/app/entries/thunks"
 import { redirectToFeed } from "@/app/redirect/thunks"
 import { useAppDispatch, useAppSelector } from "@/app/store"
@@ -12,6 +11,8 @@ import { useBrowserExtension } from "@/hooks/useBrowserExtension"
 
 interface FeedEntryContextMenuProps {
     entry: Entry
+    opened: boolean
+    onChange: (opened: boolean) => void
     // element that opens the menu when right-clicked
     children: ReactElement
 }
@@ -19,23 +20,13 @@ interface FeedEntryContextMenuProps {
 const iconSize = 16
 
 export function FeedEntryContextMenu(props: Readonly<FeedEntryContextMenuProps>) {
-    const [opened, setOpened] = useState(false)
     const customContextMenu = useAppSelector(state => state.user.settings?.customContextMenu)
     const sourceType = useAppSelector(state => state.entries.source.type)
     const dispatch = useAppDispatch()
     const { openLinkInBackgroundTab } = useBrowserExtension()
 
-    // close context menu on scroll
-    useEffect(() => {
-        if (!opened) return
-
-        const listener = throttle(100, () => setOpened(false))
-        window.addEventListener("scroll", listener)
-        return () => window.removeEventListener("scroll", listener)
-    }, [opened])
-
     return (
-        <Menu position="bottom-start" opened={opened} onChange={setOpened}>
+        <Menu position="bottom-start" opened={props.opened} onChange={props.onChange}>
             <Menu.ContextMenu disabled={!customContextMenu}>{props.children}</Menu.ContextMenu>
             <Menu.Dropdown>
                 <Menu.Item

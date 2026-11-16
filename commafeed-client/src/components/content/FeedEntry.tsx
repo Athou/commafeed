@@ -21,6 +21,8 @@ interface FeedEntryProps {
     onHeaderClick: (e: React.MouseEvent) => void
     onBodyClick: (e: React.MouseEvent) => void
     onSwipedLeft: () => void
+    contextMenuOpened: boolean
+    onContextMenuChange: (opened: boolean) => void
 }
 
 const useStyles = tss
@@ -170,7 +172,11 @@ export function FeedEntry(props: Readonly<FeedEntryProps>) {
                 "show-selection-indicator": props.showSelectionIndicator,
             })}
         >
-            <FeedEntryContextMenu entry={props.entry}>
+            <FeedEntryContextMenu
+                entry={props.entry}
+                opened={props.contextMenuOpened}
+                onChange={props.onContextMenuChange}
+            >
                 <a
                     className={classes.headerLink}
                     href={props.entry.url}

@@ -1,7 +1,7 @@
 import { Trans } from "@lingui/react/macro"
 import { Box } from "@mantine/core"
 import { openModal } from "@mantine/modals"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import InfiniteScroll from "react-infinite-scroller"
 import { throttle } from "throttle-debounce"
 import { Constants } from "@/app/constants"
@@ -77,6 +77,23 @@ export function FeedEntries() {
     }
 
     const swipedLeft = async (entry: ExpendableEntry) => await dispatch(markEntry({ entry, read: !entry.read }))
+
+    // only one context menu can be opened at a time
+    const [contextMenuEntryId, setContextMenuEntryId] = useState<string>()
+    const contextMenuChanged = (entry: ExpendableEntry, opened: boolean) =>
+        setContextMenuEntryId(current => {
+            if (opened) return entry.id
+            return current === entry.id ? undefined : current
+        })
+
+    // close context menu on scroll
+    useEffect(() => {
+        if (!contextMenuEntryId) return
+
+        const listener = throttle(100, () => setContextMenuEntryId(undefined))
+        window.addEventListener("scroll", listener)
+        return () => window.removeEventListener("scroll", listener)
+    }, [contextMenuEntryId])
 
     useEffect(() => {
         const listener = throttle(100, () => {
@@ -287,6 +304,8 @@ export function FeedEntries() {
                     onHeaderClick={event => headerClicked(entry, event)}
                     onBodyClick={() => bodyClicked(entry)}
                     onSwipedLeft={async () => await swipedLeft(entry)}
+                    contextMenuOpened={entry.id === contextMenuEntryId}
+                    onContextMenuChange={opened => contextMenuChanged(entry, opened)}
                 />
             ))}
         </InfiniteScroll>

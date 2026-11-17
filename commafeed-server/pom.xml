@@ -51,7 +51,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-help-plugin</artifactId>
-                <version>3.5.2</version>
+                <version>3.6.0</version>
                 <executions>
                     <execution>
                         <phase>initialize</phase>

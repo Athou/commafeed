@@ -140,6 +140,7 @@ public class FeedEntryContentCleaningService {
 
         whitelist.addEnforcedAttribute("a", "target", "_blank");
         whitelist.addEnforcedAttribute("a", "rel", "noreferrer");
+        whitelist.addEnforcedAttribute("iframe", "referrerpolicy", "strict-origin-when-cross-origin");
         return whitelist;
     }
 

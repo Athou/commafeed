@@ -106,7 +106,14 @@ const Content = React.memo((props: ContentProps) => {
     return (
         <BasicHtmlStyles>
             <Box className={classes.content}>
-                <Interweave content={props.content} transform={transform} matchers={matchers} allowList={allowList} />
+                <Interweave
+                    content={props.content}
+                    transform={transform}
+                    matchers={matchers}
+                    allowList={allowList}
+                    // attributes are already sanitized server-side
+                    allowAttributes
+                />
             </Box>
         </BasicHtmlStyles>
     )

@@ -25,7 +25,7 @@ class FeedEntryContentCleaningServiceTest {
                 <p>
                 Some text
                 <img width="965" height="320" src="https://localhost/an-image.png" alt="alt-desc" style="width:100%;">
-                <iframe src="https://localhost/an-iframe" style="width:100%;"></iframe>
+                <iframe src="https://localhost/an-iframe" style="width:100%;" referrerpolicy="strict-origin-when-cross-origin"></iframe>
                 aaa
                 </p>
                 """

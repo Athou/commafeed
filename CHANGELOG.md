@@ -1,5 +1,9 @@
 # Changelog
 
+## [7.5.2]
+
+- Fix Youtube embeds not loading and stealing focus (#2394)
+
 ## [7.5.1]
 
 - Fix multiple entry context menus being open at the same time (#2393)

@@ -40,7 +40,7 @@ class PushNotificationIT extends BaseIT {
     @Test
     void receivedPushNotifications() throws IOException {
         // mock ntfy server
-        HttpRequest ntfyPost = HttpRequest.request().withMethod("POST").withPath("/ntfy/integration-test");
+        HttpRequest ntfyPost = HttpRequest.request().withMethod("POST").withPath("/ntfy");
         getMockServerClient().when(ntfyPost).respond(HttpResponse.response().withStatusCode(200));
 
         // enable push notifications

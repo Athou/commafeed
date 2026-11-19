@@ -95,13 +95,16 @@ public class PushNotificationService {
             return;
         }
 
-        SimpleRequestBuilder request = SimpleRequestBuilder.post(serverUrl + "/" + topic);
-        request.addHeader("Title", feedTitle);
-        request.setBody(entryTitle, ContentType.TEXT_PLAIN.withCharset(StandardCharsets.UTF_8));
-
+        JsonObject json = new JsonObject();
+        json.put("topic", topic);
+        json.put("title", feedTitle);
+        json.put("message", entryTitle);
         if (StringUtils.isNotBlank(entryUrl)) {
-            request.addHeader("Click", entryUrl);
+            json.put("click", entryUrl);
         }
+
+        SimpleRequestBuilder request = SimpleRequestBuilder.post(serverUrl);
+        request.setBody(json.toString(), ContentType.APPLICATION_JSON);
 
         if (StringUtils.isNotBlank(settings.getUserSecret())) {
             request.addHeader("Authorization", "Bearer " + settings.getUserSecret());

@@ -64,16 +64,25 @@ class PushNotificationServiceTest {
         userSettings.setServerUrl("http://localhost:" + mockServerClient.getPort());
         userSettings.setTopic("test-topic");
         userSettings.setUserSecret("test-secret");
+        subscription.setTitle("ąćęłńóśźż 📰 Test Feed");
 
         mockServerClient
                 .when(
                         HttpRequest.request()
                                 .withMethod("POST")
-                                .withPath("/test-topic")
-                                .withHeader("Title", "Test Feed")
-                                .withHeader("Click", "http://example.com/entry")
+                                .withPath("/")
                                 .withHeader("Authorization", "Bearer test-secret")
-                                .withBody("Test Entry"))
+                                .withContentType(MediaType.APPLICATION_JSON_UTF_8)
+                                .withBody(
+                                        JsonBody.json(
+                                                """
+                                                {
+                                                	"topic": "test-topic",
+                                                	"title": "ąćęłńóśźż 📰 Test Feed",
+                                                	"message": "Test Entry",
+                                                	"click": "http://example.com/entry"
+                                                }
+                                                """)))
                 .respond(HttpResponse.response().withStatusCode(200));
 
         Assertions.assertDoesNotThrow(() -> pushNotificationService.notify(userSettings, subscription, entry));

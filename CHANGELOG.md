@@ -1,5 +1,9 @@
 # Changelog
 
+## [7.5.3]
+
+- Use ntfy JSON API so notification titles support non-ASCII characters (#2398)
+
 ## [7.5.2]
 
 - Fix Youtube embeds not loading and stealing focus (#2394)

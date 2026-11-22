@@ -64,7 +64,8 @@ export const scrollToWithCallback = ({
     options: ScrollToOptions
     onScrollEnded: () => void
 }) => {
-    const offset = (options.top ?? 0).toFixed()
+    const maxScroll = Math.max(0, document.documentElement.scrollHeight - document.documentElement.clientHeight)
+    const offset = Math.max(0, Math.min(options.top ?? 0, maxScroll)).toFixed()
 
     const onScroll = throttle(100, () => {
         if (window.scrollY.toFixed() === offset) {

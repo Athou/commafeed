@@ -3,6 +3,7 @@ package com.commafeed.backend;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
 import org.netpreserve.urlcanon.Canonicalizer;
 import org.netpreserve.urlcanon.ParsedUrl;
@@ -39,6 +40,7 @@ public class Urls {
 
     /** remove malicious 'javascript: 'URLs * */
     public static String sanitize(String url) {
+        url = StringUtils.trimToNull(url);
         if (url == null) {
             return null;
         }

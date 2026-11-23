@@ -92,6 +92,10 @@ class UrlsTest {
         Assertions.assertEquals("HTTP://example.com/foo", Urls.sanitize("HTTP://example.com/foo"));
         Assertions.assertEquals("HTTPS://example.com/foo", Urls.sanitize("HTTPS://example.com/foo"));
 
+        // surrounding whitespace is trimmed
+        Assertions.assertEquals("https://example.com/foo", Urls.sanitize("https://example.com/foo "));
+        Assertions.assertEquals("https://example.com/foo", Urls.sanitize("\n  https://example.com/foo\n"));
+
         // malicious or disallowed schemes are stripped
         Assertions.assertNull(Urls.sanitize("javascript:alert(1)"));
         Assertions.assertNull(Urls.sanitize("JavaScript:alert(1)"));

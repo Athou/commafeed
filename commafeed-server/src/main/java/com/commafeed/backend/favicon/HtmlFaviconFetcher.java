@@ -26,7 +26,7 @@ public class HtmlFaviconFetcher implements FaviconFetcher {
 
     @Override
     public Favicon fetch(Feed feed) {
-        String url = feed.getLink();
+        String url = StringUtils.trim(feed.getLink());
         if (url == null) {
             return null;
         }

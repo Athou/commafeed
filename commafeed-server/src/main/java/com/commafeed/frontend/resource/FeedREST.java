@@ -488,10 +488,6 @@ public class FeedREST {
         FeedSubscription subscription = feedSubscriptionDAO.findById(user, req.getId());
 
         subscription.setFilter(req.getFilter());
-        if (StringUtils.isNotBlank(subscription.getFilter())) {
-            // if the new filter is filled, remove the legacy filter
-            subscription.setFilterLegacy(null);
-        }
 
         subscription.setPushNotificationsEnabled(req.isPushNotificationsEnabled());
         subscription.setAutoMarkAsReadAfterDays(req.getAutoMarkAsReadAfterDays());

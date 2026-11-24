@@ -95,7 +95,6 @@ export function Tree() {
             expanded={false}
             level={0}
             hasError={false}
-            hasWarning={false}
             onClick={categoryClicked}
         />
     )
@@ -111,7 +110,6 @@ export function Tree() {
             expanded={false}
             level={0}
             hasError={false}
-            hasWarning={false}
             onClick={categoryClicked}
         />
     )
@@ -122,8 +120,6 @@ export function Tree() {
         const hasError =
             !category.expanded &&
             flattenCategoryTree(category).some(c => c.feeds.some(f => f.errorCount > errorThreshold))
-        const hasWarning =
-            !category.expanded && flattenCategoryTree(category).some(c => c.feeds.some(f => !!f.filterLegacy))
         return (
             <TreeNode
                 id={category.id}
@@ -136,7 +132,6 @@ export function Tree() {
                 expanded={category.expanded}
                 level={level}
                 hasError={hasError}
-                hasWarning={hasWarning}
                 onClick={categoryClicked}
                 onIconClick={e => categoryIconClicked(e, category)}
                 key={category.id}
@@ -158,7 +153,6 @@ export function Tree() {
                 selected={source.type === "feed" && source.id === String(feed.id)}
                 level={level}
                 hasError={feed.errorCount > errorThreshold}
-                hasWarning={!!feed.filterLegacy}
                 onClick={feedClicked}
                 key={feed.id}
             />
@@ -176,7 +170,6 @@ export function Tree() {
             selected={source.type === "tag" && source.id === tag}
             level={0}
             hasError={false}
-            hasWarning={false}
             onClick={tagClicked}
             key={tag}
         />

@@ -1071,11 +1071,6 @@ msgstr "عنوان URL للتغذية التي تريد الاشتراك فيه�
 msgid "Theme"
 msgstr "الموضوع"
 
-#. placeholder {0}: feed.filterLegacy
-#: src/pages/app/FeedDetailsPage.tsx
-msgid "This feed has a legacy filter that cannot be edited and is not applied. Please recreate the filter using the new expression editor. The legacy filter expression was: <0>{0}</0>"
-msgstr "تحتوي هذه الخلاصة على فلتر قديم لا يمكن تحريره ولا يتم تطبيقه. يرجى إعادة إنشاء الفلتر باستخدام محرر التعبيرات الجديد. كان تعبير الفلتر القديم هو: <0>{0}</0>"
-
 #: src/components/settings/ProfileSettings.tsx
 msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API and the Google Reader API. Use the form at the bottom of the page to generate a new API key"
 msgstr "هذا هو مفتاح API الخاص بك. يمكن استخدامه لبعض عمليات API للقراءة فقط ويمنح حق الوصول إلى Fever API و Google Reader API. استخدم النموذج الموجود أسفل الصفحة لإنشاء مفتاح API جديد"

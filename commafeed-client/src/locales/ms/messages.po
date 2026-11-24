@@ -1071,11 +1071,6 @@ msgstr "URL untuk suapan yang anda ingin langgan. "
 msgid "Theme"
 msgstr "Tema"
 
-#. placeholder {0}: feed.filterLegacy
-#: src/pages/app/FeedDetailsPage.tsx
-msgid "This feed has a legacy filter that cannot be edited and is not applied. Please recreate the filter using the new expression editor. The legacy filter expression was: <0>{0}</0>"
-msgstr "Suapan ini mempunyai penapis warisan yang tidak boleh diedit dan tidak digunakan. Sila buat semula penapis menggunakan editor ungkapan baharu. Ungkapan penapis warisan ialah: <0>{0}</0>"
-
 #: src/components/settings/ProfileSettings.tsx
 msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API and the Google Reader API. Use the form at the bottom of the page to generate a new API key"
 msgstr "Ini ialah kunci API anda. Ia boleh digunakan untuk sesetengah operasi API baca sahaja dan memberikan akses kepada Fever API dan Google Reader API. Gunakan borang di bahagian bawah halaman untuk menjana kunci API baharu"

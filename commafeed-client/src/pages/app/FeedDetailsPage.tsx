@@ -10,7 +10,6 @@ import {
     Divider,
     Group,
     Input,
-    Alert as MantineAlert,
     NumberInput,
     Stack,
     Text,
@@ -21,7 +20,7 @@ import { useForm } from "@mantine/form"
 import { openConfirmModal } from "@mantine/modals"
 import { useEffect } from "react"
 import { useAsync, useAsyncCallback } from "react-async-hook"
-import { TbAlertTriangle, TbDeviceFloppy, TbTrash } from "react-icons/tb"
+import { TbDeviceFloppy, TbTrash } from "react-icons/tb"
 import { useParams } from "react-router-dom"
 import { client, errorToStrings } from "@/app/client"
 import { redirectToRootCategory, redirectToSelectedSource } from "@/app/redirect/thunks"
@@ -174,15 +173,6 @@ export function FeedDetailsPage() {
                             </Trans>
                         }
                     >
-                        {feed.filterLegacy && (
-                            <MantineAlert color="yellow" icon={<TbAlertTriangle />}>
-                                <Trans>
-                                    This feed has a legacy filter that cannot be edited and is not applied. Please
-                                    recreate the filter using the new expression editor. The legacy filter expression
-                                    was: <Code>{feed.filterLegacy}</Code>
-                                </Trans>
-                            </MantineAlert>
-                        )}
                         <Box mt="xs">
                             <FilteringExpressionEditor
                                 initialValue={feed.filter}

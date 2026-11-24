@@ -1071,11 +1071,6 @@ msgstr "A URL do feed que você deseja assinar. "
 msgid "Theme"
 msgstr "Tema"
 
-#. placeholder {0}: feed.filterLegacy
-#: src/pages/app/FeedDetailsPage.tsx
-msgid "This feed has a legacy filter that cannot be edited and is not applied. Please recreate the filter using the new expression editor. The legacy filter expression was: <0>{0}</0>"
-msgstr "Este feed tem um filtro legado que não pode ser editado e não é aplicado. Recrie o filtro usando o novo editor de expressões. A expressão do filtro legado era: <0>{0}</0>"
-
 #: src/components/settings/ProfileSettings.tsx
 msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API and the Google Reader API. Use the form at the bottom of the page to generate a new API key"
 msgstr "Esta é sua chave de API. Ela pode ser usada para algumas operações de API somente leitura e concede acesso à API Fever e à API Google Reader. Use o formulário na parte inferior da página para gerar uma nova chave de API"

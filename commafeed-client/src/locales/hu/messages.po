@@ -1071,11 +1071,6 @@ msgstr "Az előfizetni kívánt hírcsatorna URL-je. "
 msgid "Theme"
 msgstr "Téma"
 
-#. placeholder {0}: feed.filterLegacy
-#: src/pages/app/FeedDetailsPage.tsx
-msgid "This feed has a legacy filter that cannot be edited and is not applied. Please recreate the filter using the new expression editor. The legacy filter expression was: <0>{0}</0>"
-msgstr "Ez a feed egy régi szűrővel rendelkezik, amely nem szerkeszthető és nem kerül alkalmazásra. Kérjük, hozza létre újra a szűrőt az új kifejezésszerkesztővel. A régi szűrőkifejezés a következő volt: <0>{0}</0>"
-
 #: src/components/settings/ProfileSettings.tsx
 msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API and the Google Reader API. Use the form at the bottom of the page to generate a new API key"
 msgstr "Ez az Ön API-kulcsa. Néhány csak olvasható API-művelethez használható, és hozzáférést biztosít a Fever API-hoz és a Google Reader API-hoz. Használja az oldal alján található űrlapot új API-kulcs létrehozásához"

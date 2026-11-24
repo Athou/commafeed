@@ -28,7 +28,6 @@ export interface Subscription {
     position: number
     newestItemTime?: number
     filter?: string
-    filterLegacy?: string
     pushNotificationsEnabled: boolean
     autoMarkAsReadAfterDays?: number
 }

@@ -1071,11 +1071,6 @@ msgstr "구독하려는 피드의 URL입니다. "
 msgid "Theme"
 msgstr "테마"
 
-#. placeholder {0}: feed.filterLegacy
-#: src/pages/app/FeedDetailsPage.tsx
-msgid "This feed has a legacy filter that cannot be edited and is not applied. Please recreate the filter using the new expression editor. The legacy filter expression was: <0>{0}</0>"
-msgstr "이 피드에는 편집할 수 없고 적용되지 않는 기존 필터가 있습니다. 새 표현식 편집기를 사용하여 필터를 다시 만드십시오. 기존 필터 표현식은 <0>{0}</0>이었습니다."
-
 #: src/components/settings/ProfileSettings.tsx
 msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API and the Google Reader API. Use the form at the bottom of the page to generate a new API key"
 msgstr "이것은 회원님의 API 키입니다. 일부 읽기 전용 API 작업에 사용할 수 있으며 Fever API 및 Google Reader API에 대한 액세스 권한을 부여합니다. 새 API 키를 생성하려면 페이지 하단의 양식을 사용하십시오"

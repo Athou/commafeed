@@ -1071,11 +1071,6 @@ msgstr "您要订阅的信息流的网址。您也可以直接使用网站的网
 msgid "Theme"
 msgstr "主题"
 
-#. placeholder {0}: feed.filterLegacy
-#: src/pages/app/FeedDetailsPage.tsx
-msgid "This feed has a legacy filter that cannot be edited and is not applied. Please recreate the filter using the new expression editor. The legacy filter expression was: <0>{0}</0>"
-msgstr "此信息流具有无法编辑且未应用的旧版过滤器。请使用新的表达式编辑器重新创建过滤器。旧版过滤器表达式为：<0>{0}</0>"
-
 #: src/components/settings/ProfileSettings.tsx
 msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API and the Google Reader API. Use the form at the bottom of the page to generate a new API key"
 msgstr "这是您的 API 密钥。它可用于某些只读 API 操作，并授予对 Fever API 和 Google Reader API 的访问权限。使用页面底部的表单生成新的 API 密钥"

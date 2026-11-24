@@ -1071,11 +1071,6 @@ msgstr "Y URL ar gyfer y porthwr rydych chi am danysgrifio iddo. "
 msgid "Theme"
 msgstr "Thema"
 
-#. placeholder {0}: feed.filterLegacy
-#: src/pages/app/FeedDetailsPage.tsx
-msgid "This feed has a legacy filter that cannot be edited and is not applied. Please recreate the filter using the new expression editor. The legacy filter expression was: <0>{0}</0>"
-msgstr "Mae gan y porthiant hwn hen hidlydd na ellir ei olygu ac nid yw'n cael ei gymhwyso. Crëwch yr hidlydd eto gan ddefnyddio'r golygydd mynegiant newydd. Yr hen fynegiant hidlo oedd: <0>{0}</0>"
-
 #: src/components/settings/ProfileSettings.tsx
 msgid "This is your API key. It can be used for some read-only API operations and grants access to the Fever API and the Google Reader API. Use the form at the bottom of the page to generate a new API key"
 msgstr "Dyma eich allwedd API. Gellir ei defnyddio ar gyfer rhai gweithrediadau API darllen-yn-unig ac mae'n rhoi mynediad i'r Fever API a'r Google Reader API. Defnyddiwch y ffurflen ar waelod y dudalen i gynhyrchu allwedd API newydd"

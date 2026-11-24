@@ -65,9 +65,6 @@ public class Subscription implements Serializable {
     @Schema(description = "CEL string evaluated on new entries to mark them as read if they do not match")
     private String filter;
 
-    @Schema(description = "JEXL legacy filter")
-    private String filterLegacy;
-
     @Schema(description = "whether to send push notifications for new entries of this feed", required = true)
     private boolean pushNotificationsEnabled;
 
@@ -95,7 +92,6 @@ public class Subscription implements Serializable {
         sub.setNewestItemTime(unreadCount.getNewestItemTime());
         sub.setCategoryId(category == null ? null : String.valueOf(category.getId()));
         sub.setFilter(subscription.getFilter());
-        sub.setFilterLegacy(subscription.getFilterLegacy());
         sub.setPushNotificationsEnabled(subscription.isPushNotificationsEnabled());
         sub.setAutoMarkAsReadAfterDays(subscription.getAutoMarkAsReadAfterDays());
         return sub;

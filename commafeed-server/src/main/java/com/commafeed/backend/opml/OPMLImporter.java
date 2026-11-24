@@ -1,10 +1,14 @@
 package com.commafeed.backend.opml;
 
 import com.commafeed.backend.dao.FeedCategoryDAO;
+import com.commafeed.backend.dao.FeedSubscriptionDAO;
 import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.feed.parser.XMLCleaner;
 import com.commafeed.backend.model.FeedCategory;
+import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
+import com.commafeed.backend.service.FeedEntryFilteringService;
+import com.commafeed.backend.service.FeedEntryFilteringService.FeedEntryFilterException;
 import com.commafeed.backend.service.FeedSubscriptionService;
 import com.rometools.opml.feed.opml.Opml;
 import com.rometools.opml.feed.opml.Outline;
@@ -18,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 import java.io.StringReader;
 import java.util.List;
@@ -29,7 +34,9 @@ public class OPMLImporter {
 
     private final XMLCleaner xmlCleaner;
     private final FeedCategoryDAO feedCategoryDAO;
+    private final FeedSubscriptionDAO feedSubscriptionDAO;
     private final FeedSubscriptionService feedSubscriptionService;
+    private final FeedEntryFilteringService feedEntryFilteringService;
 
     public void importOpml(User user, String xml) throws IllegalArgumentException, FeedException {
         xml = xmlCleaner.clean(xml);
@@ -83,10 +90,42 @@ public class OPMLImporter {
             }
             // make sure we continue with the import process even if a feed failed
             try {
-                feedSubscriptionService.subscribe(user, outline.getXmlUrl(), name, parent, position);
+                long id = feedSubscriptionService.subscribe(user, outline.getXmlUrl(), name, parent, position);
+                importCommaFeedSettings(user, outline, id);
             } catch (Exception e) {
                 log.error("error while importing {}: {}", outline.getXmlUrl(), e.getMessage());
             }
+        }
+    }
+
+    // rome drops attribute namespaces when parsing, CommaFeed settings are read by their local name
+    private void importCommaFeedSettings(User user, Outline outline, long subscriptionId) {
+        String filter = outline.getAttributeValue(OPMLConstants.FILTER);
+        String autoMarkAsReadAfterDays = outline.getAttributeValue(OPMLConstants.AUTO_MARK_AS_READ_AFTER_DAYS);
+        String pushNotificationsEnabled = outline.getAttributeValue(OPMLConstants.PUSH_NOTIFICATIONS_ENABLED);
+        if (filter == null && autoMarkAsReadAfterDays == null && pushNotificationsEnabled == null) {
+            return;
+        }
+
+        FeedSubscription sub = feedSubscriptionDAO.findById(user, subscriptionId);
+        if (sub == null) {
+            return;
+        }
+
+        if (StringUtils.isNotBlank(filter)) {
+            try {
+                feedEntryFilteringService.validateFilter(filter);
+                sub.setFilter(StringUtils.truncate(filter, 4096));
+            } catch (FeedEntryFilterException e) {
+                log.warn("ignoring invalid filter for {}: {}", outline.getXmlUrl(), e.getMessage());
+            }
+        }
+        int days = NumberUtils.toInt(StringUtils.trim(autoMarkAsReadAfterDays), -1);
+        if (days >= 0) {
+            sub.setAutoMarkAsReadAfterDays(days);
+        }
+        if (pushNotificationsEnabled != null) {
+            sub.setPushNotificationsEnabled(Boolean.parseBoolean(pushNotificationsEnabled.trim()));
         }
     }
 }

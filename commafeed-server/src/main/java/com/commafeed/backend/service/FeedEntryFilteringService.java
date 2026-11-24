@@ -2,6 +2,7 @@ package com.commafeed.backend.service;
 
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.model.FeedEntry;
+import com.commafeed.backend.model.FeedEntryContent;
 
 import dev.cel.common.CelAbstractSyntaxTree;
 import dev.cel.common.CelValidationException;
@@ -47,8 +48,27 @@ public class FeedEntryFilteringService {
                     .build();
     private static final CelRuntime CEL_RUNTIME = CelRuntimeFactory.plannerRuntimeBuilder().build();
 
+    private static final FeedEntry TEST_ENTRY = initTestEntry();
+
     private final ExecutorService executor = Executors.newCachedThreadPool();
     private final CommaFeedConfiguration config;
+
+    private static FeedEntry initTestEntry() {
+        FeedEntry entry = new FeedEntry();
+        entry.setUrl("https://github.com/Athou/commafeed");
+
+        FeedEntryContent content = new FeedEntryContent();
+        content.setAuthor("Athou");
+        content.setTitle("Merge pull request #662 from Athou/dw8");
+        content.setContent("Merge pull request #662 from Athou/dw8");
+        entry.setContent(content);
+        return entry;
+    }
+
+    /** Throws if the filter is invalid, by evaluating it against a test entry */
+    public void validateFilter(String filter) throws FeedEntryFilterException {
+        filterMatchesEntry(filter, TEST_ENTRY);
+    }
 
     public boolean filterMatchesEntry(String filter, FeedEntry entry) throws FeedEntryFilterException {
         if (StringUtils.isBlank(filter)) {

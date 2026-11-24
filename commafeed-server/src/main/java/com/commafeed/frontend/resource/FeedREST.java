@@ -12,8 +12,6 @@ import com.commafeed.backend.feed.FeedFetcher.FeedFetcherResult;
 import com.commafeed.backend.feed.FeedUtils;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
-import com.commafeed.backend.model.FeedEntry;
-import com.commafeed.backend.model.FeedEntryContent;
 import com.commafeed.backend.model.FeedEntryStatus;
 import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
@@ -41,12 +39,10 @@ import com.commafeed.security.AuthenticationContext;
 import com.commafeed.security.Roles;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
-import com.rometools.opml.feed.opml.Opml;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.feed.synd.SyndFeedImpl;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedOutput;
-import com.rometools.rome.io.WireFeedOutput;
 
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Singleton;
@@ -99,8 +95,6 @@ import java.util.Objects;
 @Tag(name = "Feeds")
 public class FeedREST {
 
-    private static final FeedEntry TEST_ENTRY = initTestEntry();
-
     private final AuthenticationContext authenticationContext;
     private final FeedSubscriptionDAO feedSubscriptionDAO;
     private final FeedCategoryDAO feedCategoryDAO;
@@ -114,18 +108,6 @@ public class FeedREST {
     private final OPMLExporter opmlExporter;
     private final CommaFeedConfiguration config;
     private final UriInfo uri;
-
-    private static FeedEntry initTestEntry() {
-        FeedEntry entry = new FeedEntry();
-        entry.setUrl("https://github.com/Athou/commafeed");
-
-        FeedEntryContent content = new FeedEntryContent();
-        content.setAuthor("Athou");
-        content.setTitle("Merge pull request #662 from Athou/dw8");
-        content.setContent("Merge pull request #662 from Athou/dw8");
-        entry.setContent(content);
-        return entry;
-    }
 
     @Path("/entries")
     @GET
@@ -479,7 +461,7 @@ public class FeedREST {
         Preconditions.checkNotNull(req.getId());
 
         try {
-            feedEntryFilteringService.filterMatchesEntry(req.getFilter(), TEST_ENTRY);
+            feedEntryFilteringService.validateFilter(req.getFilter());
         } catch (FeedEntryFilterException e) {
             return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
         }
@@ -551,10 +533,6 @@ public class FeedREST {
     @Operation(summary = "OPML export", description = "Export an OPML file of the user's subscriptions")
     public Response exportOpml() throws FeedException {
         User user = authenticationContext.getCurrentUser();
-        Opml opml = opmlExporter.export(user);
-
-        WireFeedOutput output = new WireFeedOutput();
-        String opmlString = output.outputString(opml);
-        return Response.ok(opmlString).build();
+        return Response.ok(opmlExporter.exportXml(user)).build();
     }
 }

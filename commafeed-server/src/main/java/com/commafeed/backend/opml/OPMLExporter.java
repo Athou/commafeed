@@ -8,12 +8,20 @@ import com.commafeed.backend.model.User;
 import com.rometools.opml.feed.opml.Attribute;
 import com.rometools.opml.feed.opml.Opml;
 import com.rometools.opml.feed.opml.Outline;
+import com.rometools.rome.io.FeedException;
+import com.rometools.rome.io.WireFeedOutput;
 
 import jakarta.inject.Singleton;
 
 import lombok.RequiredArgsConstructor;
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.filter.Filters;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 
 import java.util.Comparator;
 import java.util.Date;
@@ -31,7 +39,25 @@ public class OPMLExporter {
     private final FeedCategoryDAO feedCategoryDAO;
     private final FeedSubscriptionDAO feedSubscriptionDAO;
 
-    public Opml export(User user) {
+    public String exportXml(User user) throws FeedException {
+        Document doc = new WireFeedOutput().outputJDom(export(user));
+
+        // rome can't write namespaced attributes, move them to our namespace after generation
+        Element root = doc.getRootElement();
+        root.addNamespaceDeclaration(OPMLConstants.NAMESPACE);
+        for (Element outline : root.getDescendants(Filters.element("outline"))) {
+            for (String name : OPMLConstants.COMMAFEED_ATTRIBUTES) {
+                org.jdom2.Attribute attribute = outline.getAttribute(name);
+                if (attribute != null) {
+                    attribute.setNamespace(OPMLConstants.NAMESPACE);
+                }
+            }
+        }
+
+        return new XMLOutputter(Format.getPrettyFormat()).outputString(doc);
+    }
+
+    private Opml export(User user) {
         Opml opml = new Opml();
         opml.setFeedType("opml_1.0");
         opml.setTitle(String.format("%s subscriptions in CommaFeed", user.getName()));
@@ -86,6 +112,20 @@ public class OPMLExporter {
         outline.getAttributes().add(new Attribute("xmlUrl", sub.getFeed().getUrl()));
         if (sub.getFeed().getLink() != null) {
             outline.getAttributes().add(new Attribute("htmlUrl", sub.getFeed().getLink()));
+        }
+
+        if (StringUtils.isNotBlank(sub.getFilter())) {
+            outline.getAttributes().add(new Attribute(OPMLConstants.FILTER, sub.getFilter()));
+        }
+        if (sub.getAutoMarkAsReadAfterDays() != null) {
+            outline.getAttributes()
+                    .add(
+                            new Attribute(
+                                    OPMLConstants.AUTO_MARK_AS_READ_AFTER_DAYS,
+                                    String.valueOf(sub.getAutoMarkAsReadAfterDays())));
+        }
+        if (sub.isPushNotificationsEnabled()) {
+            outline.getAttributes().add(new Attribute(OPMLConstants.PUSH_NOTIFICATIONS_ENABLED, "true"));
         }
         return outline;
     }

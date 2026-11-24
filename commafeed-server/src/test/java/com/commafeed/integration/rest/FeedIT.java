@@ -36,6 +36,7 @@ import org.xml.sax.InputSource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -338,6 +339,55 @@ class FeedIT extends BaseIT {
                             .extract()
                             .asString();
             Assertions.assertTrue(opml.contains("<title>admin subscriptions in CommaFeed</title>"));
+        }
+
+        @Test
+        void exportAndRestoreCommaFeedSettings() {
+            Long subscriptionId = subscribe(getFeedUrl());
+            modifySettings(subscriptionId, "url.endsWith('commafeed')", 7, true);
+
+            String opml =
+                    RestAssured.given()
+                            .get("rest/feed/export")
+                            .then()
+                            .statusCode(HttpStatus.SC_OK)
+                            .extract()
+                            .asString();
+            Assertions.assertTrue(opml.contains("xmlns:commafeed=\"https://www.commafeed.com/opml\""));
+            Assertions.assertTrue(opml.contains("commafeed:filter=\"url.endsWith('commafeed')\""));
+            Assertions.assertTrue(opml.contains("commafeed:autoMarkAsReadAfterDays=\"7\""));
+            Assertions.assertTrue(opml.contains("commafeed:pushNotificationsEnabled=\"true\""));
+
+            // clear settings, then restore them by importing the export
+            modifySettings(subscriptionId, null, null, false);
+            RestAssured.given()
+                    .multiPart(
+                            "file", "export.opml", opml.getBytes(StandardCharsets.UTF_8), MediaType.MULTIPART_FORM_DATA)
+                    .post("rest/feed/import")
+                    .then()
+                    .statusCode(HttpStatus.SC_OK);
+
+            Subscription subscription = getSubscription(subscriptionId);
+            Assertions.assertEquals("url.endsWith('commafeed')", subscription.getFilter());
+            Assertions.assertEquals(7, subscription.getAutoMarkAsReadAfterDays());
+            Assertions.assertTrue(subscription.isPushNotificationsEnabled());
+        }
+
+        private void modifySettings(
+                Long subscriptionId, String filter, Integer autoMarkAsReadAfterDays, boolean pushNotificationsEnabled) {
+            Subscription subscription = getSubscription(subscriptionId);
+            FeedModificationRequest req = new FeedModificationRequest();
+            req.setId(subscriptionId);
+            req.setCategoryId(subscription.getCategoryId());
+            req.setFilter(filter);
+            req.setAutoMarkAsReadAfterDays(autoMarkAsReadAfterDays);
+            req.setPushNotificationsEnabled(pushNotificationsEnabled);
+            RestAssured.given()
+                    .body(req)
+                    .contentType(ContentType.JSON)
+                    .post("rest/feed/modify")
+                    .then()
+                    .statusCode(HttpStatus.SC_OK);
         }
 
         void importOpml() {

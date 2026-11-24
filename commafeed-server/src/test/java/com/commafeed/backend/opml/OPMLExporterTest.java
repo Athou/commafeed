@@ -8,6 +8,8 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.rometools.opml.feed.opml.Opml;
 import com.rometools.opml.feed.opml.Outline;
+import com.rometools.rome.io.FeedException;
+import com.rometools.rome.io.WireFeedInput;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,11 +79,11 @@ class OPMLExporterTest {
     }
 
     @Test
-    void generatesOpmlCorrectly() {
+    void generatesOpmlCorrectly() throws FeedException {
         Mockito.when(feedCategoryDAO.findAll(user)).thenReturn(categories);
         Mockito.when(feedSubscriptionDAO.findAll(user)).thenReturn(subscriptions);
 
-        Opml opml = new OPMLExporter(feedCategoryDAO, feedSubscriptionDAO).export(user);
+        Opml opml = export();
 
         List<Outline> rootOutlines = opml.getOutlines();
         Assertions.assertEquals(2, rootOutlines.size());
@@ -97,6 +100,47 @@ class OPMLExporterTest {
         List<Outline> cat2Children = cat2Outline.getChildren();
         Assertions.assertEquals(1, cat2Children.size());
         Assertions.assertTrue(containsFeed(cat2Children, "cat2Feed", "cat2Feed.com"));
+    }
+
+    @Test
+    void exportsCommaFeedSettings() throws FeedException {
+        cat1Feed.setFilter("title.contains('java')");
+        cat1Feed.setAutoMarkAsReadAfterDays(7);
+        cat1Feed.setPushNotificationsEnabled(true);
+        Mockito.when(feedCategoryDAO.findAll(user)).thenReturn(categories);
+        Mockito.when(feedSubscriptionDAO.findAll(user)).thenReturn(subscriptions);
+
+        Opml opml = export();
+
+        Outline rootFeedOutline = getCategoryOutline(opml.getOutlines(), "rootFeed");
+        Assertions.assertNull(rootFeedOutline.getAttributeValue(OPMLConstants.FILTER));
+        Assertions.assertNull(rootFeedOutline.getAttributeValue(OPMLConstants.AUTO_MARK_AS_READ_AFTER_DAYS));
+        Assertions.assertNull(rootFeedOutline.getAttributeValue(OPMLConstants.PUSH_NOTIFICATIONS_ENABLED));
+
+        Outline cat1FeedOutline =
+                getCategoryOutline(getCategoryOutline(opml.getOutlines(), "cat1").getChildren(), "cat1Feed");
+        Assertions.assertEquals("title.contains('java')", cat1FeedOutline.getAttributeValue(OPMLConstants.FILTER));
+        Assertions.assertEquals("7", cat1FeedOutline.getAttributeValue(OPMLConstants.AUTO_MARK_AS_READ_AFTER_DAYS));
+        Assertions.assertEquals("true", cat1FeedOutline.getAttributeValue(OPMLConstants.PUSH_NOTIFICATIONS_ENABLED));
+    }
+
+    @Test
+    void exportsCommaFeedSettingsAsNamespacedAttributes() throws FeedException {
+        cat1Feed.setFilter("title.contains('java')");
+        Mockito.when(feedCategoryDAO.findAll(user)).thenReturn(categories);
+        Mockito.when(feedSubscriptionDAO.findAll(user)).thenReturn(subscriptions);
+
+        String xml = new OPMLExporter(feedCategoryDAO, feedSubscriptionDAO).exportXml(user);
+
+        Assertions.assertTrue(xml.contains("xmlns:commafeed=\"https://www.commafeed.com/opml\""));
+        Assertions.assertTrue(xml.contains("commafeed:filter=\"title.contains('java')\""));
+        // declared once on the root only
+        Assertions.assertEquals(1, xml.split("xmlns:commafeed", -1).length - 1);
+    }
+
+    private Opml export() throws FeedException {
+        String xml = new OPMLExporter(feedCategoryDAO, feedSubscriptionDAO).exportXml(user);
+        return (Opml) new WireFeedInput().build(new StringReader(xml));
     }
 
     private boolean containsCategory(List<Outline> outlines, String category) {

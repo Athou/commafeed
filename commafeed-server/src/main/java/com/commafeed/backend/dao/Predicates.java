@@ -1,21 +1,29 @@
 package com.commafeed.backend.dao;
 
-import com.commafeed.backend.model.QFeedEntry;
-import com.commafeed.backend.model.QFeedEntryStatus;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.jpa.JPAExpressions;
+import com.commafeed.backend.model.FeedEntry;
+import com.commafeed.backend.model.FeedEntryStatus;
+import com.commafeed.backend.model.FeedEntryStatus_;
+
+import jakarta.persistence.criteria.AbstractQuery;
+import jakarta.persistence.criteria.Path;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.Subquery;
 
 import lombok.experimental.UtilityClass;
+
+import org.hibernate.query.criteria.HibernateCriteriaBuilder;
 
 @UtilityClass
 public class Predicates {
 
-    private static final QFeedEntryStatus STATUS = QFeedEntryStatus.feedEntryStatus;
-
-    public static BooleanExpression isNotStarred(QFeedEntry entry) {
-        return JPAExpressions.selectOne()
-                .from(STATUS)
-                .where(STATUS.entry.eq(entry).and(STATUS.starred.isTrue()))
-                .notExists();
+    public static Predicate isNotStarred(HibernateCriteriaBuilder cb, AbstractQuery<?> query, Path<FeedEntry> entry) {
+        Subquery<Integer> subquery = query.subquery(Integer.class);
+        Root<FeedEntryStatus> status = subquery.from(FeedEntryStatus.class);
+        subquery.select(cb.literal(1))
+                .where(
+                        cb.equal(status.get(FeedEntryStatus_.entry), entry),
+                        cb.isTrue(status.get(FeedEntryStatus_.starred)));
+        return cb.not(cb.exists(subquery));
     }
 }

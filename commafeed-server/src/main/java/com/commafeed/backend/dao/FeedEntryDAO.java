@@ -3,14 +3,17 @@ package com.commafeed.backend.dao;
 import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedEntry;
-import com.commafeed.backend.model.QFeedEntry;
+import com.commafeed.backend.model.FeedEntry_;
+import com.commafeed.backend.model.Feed_;
 import com.google.common.collect.Lists;
-import com.querydsl.core.Tuple;
-import com.querydsl.core.types.dsl.NumberExpression;
-import com.querydsl.jpa.impl.JPAQuery;
 
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Tuple;
+import jakarta.persistence.criteria.Expression;
+import jakarta.persistence.criteria.Path;
+
+import org.hibernate.query.criteria.CriteriaDefinition;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -21,7 +24,6 @@ import java.util.Set;
 @Singleton
 public class FeedEntryDAO extends GenericDAO<FeedEntry> {
 
-    private static final QFeedEntry ENTRY = QFeedEntry.feedEntry;
     private static final int IN_CLAUSE_BATCH_SIZE = 1000;
 
     public FeedEntryDAO(EntityManager entityManager, CommaFeedConfiguration config) {
@@ -29,11 +31,17 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
     }
 
     public FeedEntry findExisting(String guidHash, Feed feed) {
-        return query().select(ENTRY)
-                .from(ENTRY)
-                .where(ENTRY.guidHash.eq(guidHash), ENTRY.feed.eq(feed))
-                .limit(1)
-                .fetchOne();
+        return query(
+                        new CriteriaDefinition<>(getEntityManager(), FeedEntry.class) {
+                            {
+                                var entry = from(FeedEntry.class);
+                                where(
+                                        equal(entry.get(FeedEntry_.guidHash), guidHash),
+                                        equal(entry.get(FeedEntry_.feed), feed));
+                            }
+                        })
+                .setMaxResults(1)
+                .getSingleResultOrNull();
     }
 
     public Set<String> findExistingGuidHashes(Set<String> guidHashes, Feed feed) {
@@ -44,57 +52,97 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
         Set<String> result = new HashSet<>();
         for (List<String> batch : Lists.partition(new ArrayList<>(guidHashes), IN_CLAUSE_BATCH_SIZE)) {
             result.addAll(
-                    query().select(ENTRY.guidHash)
-                            .from(ENTRY)
-                            .where(ENTRY.feed.eq(feed), ENTRY.guidHash.in(batch))
-                            .fetch());
+                    query(
+                                    new CriteriaDefinition<>(getEntityManager(), String.class) {
+                                        {
+                                            var entry = from(FeedEntry.class);
+                                            select(entry.get(FeedEntry_.guidHash));
+                                            where(
+                                                    equal(entry.get(FeedEntry_.feed), feed),
+                                                    entry.get(FeedEntry_.guidHash).in(batch));
+                                        }
+                                    })
+                            .getResultList());
         }
         return result;
     }
 
     public List<FeedCapacity> findFeedsExceedingCapacity(long maxCapacity, long max, boolean keepStarredEntries) {
-        NumberExpression<Long> count = ENTRY.id.count();
-        JPAQuery<Tuple> query = query().select(ENTRY.feed.id, count).from(ENTRY);
+        var criteria =
+                new CriteriaDefinition<>(getEntityManager(), Tuple.class) {
+                    final Path<Long> feedId;
+                    final Expression<Long> count;
 
-        if (keepStarredEntries) {
-            query.where(Predicates.isNotStarred(ENTRY));
-        }
+                    {
+                        var entry = from(FeedEntry.class);
+                        feedId = entry.get(FeedEntry_.feed).get(Feed_.id);
+                        count = count(entry.get(FeedEntry_.id));
+                        select(tuple(feedId, count));
 
-        return query.groupBy(ENTRY.feed).having(count.gt(maxCapacity)).limit(max).fetch().stream()
-                .map(t -> new FeedCapacity(t.get(ENTRY.feed.id), t.get(count)))
+                        if (keepStarredEntries) {
+                            where(Predicates.isNotStarred(this, this, entry));
+                        }
+
+                        groupBy(entry.get(FeedEntry_.feed));
+                        having(greaterThan(count, maxCapacity));
+                    }
+                };
+
+        return query(criteria).setMaxResults(Math.toIntExact(max)).getResultList().stream()
+                .map(t -> new FeedCapacity(t.get(criteria.feedId), t.get(criteria.count)))
                 .toList();
     }
 
     public int delete(Long feedId, long max) {
-        List<FeedEntry> list = query().selectFrom(ENTRY).where(ENTRY.feed.id.eq(feedId)).limit(max).fetch();
+        List<FeedEntry> list =
+                query(
+                                new CriteriaDefinition<>(getEntityManager(), FeedEntry.class) {
+                                    {
+                                        var entry = from(FeedEntry.class);
+                                        where(equal(entry.get(FeedEntry_.feed).get(Feed_.id), feedId));
+                                    }
+                                })
+                        .setMaxResults(Math.toIntExact(max))
+                        .getResultList();
         return delete(list);
     }
 
     /** Delete entries older than a certain date */
     public int deleteEntriesOlderThan(Instant olderThan, long max, boolean keepStarredEntries) {
-        JPAQuery<FeedEntry> query =
-                query().selectFrom(ENTRY)
-                        .where(ENTRY.published.lt(olderThan))
-                        .orderBy(ENTRY.published.asc())
-                        .limit(max);
-
-        if (keepStarredEntries) {
-            query.where(Predicates.isNotStarred(ENTRY));
-        }
-
-        return delete(query.fetch());
+        List<FeedEntry> list =
+                query(
+                                new CriteriaDefinition<>(getEntityManager(), FeedEntry.class) {
+                                    {
+                                        var entry = from(FeedEntry.class);
+                                        where(lessThan(entry.get(FeedEntry_.published), olderThan));
+                                        if (keepStarredEntries) {
+                                            restrict(Predicates.isNotStarred(this, this, entry));
+                                        }
+                                        orderBy(asc(entry.get(FeedEntry_.published)));
+                                    }
+                                })
+                        .setMaxResults(Math.toIntExact(max))
+                        .getResultList();
+        return delete(list);
     }
 
     /** Delete the oldest entries of a feed */
     public int deleteOldEntries(Long feedId, long max, boolean keepStarredEntries) {
-        JPAQuery<FeedEntry> query =
-                query().selectFrom(ENTRY).where(ENTRY.feed.id.eq(feedId)).orderBy(ENTRY.published.asc()).limit(max);
-
-        if (keepStarredEntries) {
-            query.where(Predicates.isNotStarred(ENTRY));
-        }
-
-        return delete(query.fetch());
+        List<FeedEntry> list =
+                query(
+                                new CriteriaDefinition<>(getEntityManager(), FeedEntry.class) {
+                                    {
+                                        var entry = from(FeedEntry.class);
+                                        where(equal(entry.get(FeedEntry_.feed).get(Feed_.id), feedId));
+                                        if (keepStarredEntries) {
+                                            restrict(Predicates.isNotStarred(this, this, entry));
+                                        }
+                                        orderBy(asc(entry.get(FeedEntry_.published)));
+                                    }
+                                })
+                        .setMaxResults(Math.toIntExact(max))
+                        .getResultList();
+        return delete(list);
     }
 
     public record FeedCapacity(Long id, Long capacity) {}

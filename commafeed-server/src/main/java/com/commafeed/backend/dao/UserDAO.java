@@ -1,34 +1,52 @@
 package com.commafeed.backend.dao;
 
 import com.commafeed.CommaFeedConfiguration;
-import com.commafeed.backend.model.QUser;
 import com.commafeed.backend.model.User;
+import com.commafeed.backend.model.User_;
 
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.metamodel.SingularAttribute;
+
+import org.hibernate.query.criteria.CriteriaDefinition;
 
 @Singleton
 public class UserDAO extends GenericDAO<User> {
-
-    private static final QUser USER = QUser.user;
 
     public UserDAO(EntityManager entityManager, CommaFeedConfiguration config) {
         super(entityManager, User.class, config);
     }
 
     public User findByName(String name) {
-        return query().selectFrom(USER).where(USER.name.equalsIgnoreCase(name)).fetchOne();
+        return findByIgnoreCase(User_.name, name);
     }
 
     public User findByApiKey(String key) {
-        return query().selectFrom(USER).where(USER.apiKey.equalsIgnoreCase(key)).fetchOne();
+        return findByIgnoreCase(User_.apiKey, key);
     }
 
     public User findByEmail(String email) {
-        return query().selectFrom(USER).where(USER.email.equalsIgnoreCase(email)).fetchOne();
+        return findByIgnoreCase(User_.email, email);
+    }
+
+    private User findByIgnoreCase(SingularAttribute<User, String> attribute, String value) {
+        return query(
+                        new CriteriaDefinition<>(getEntityManager(), User.class) {
+                            {
+                                var user = from(User.class);
+                                where(equalsIgnoreCase(this, user.get(attribute), value));
+                            }
+                        })
+                .getSingleResultOrNull();
     }
 
     public long count() {
-        return query().select(USER.count()).from(USER).fetchOne();
+        return query(
+                        new CriteriaDefinition<>(getEntityManager(), Long.class) {
+                            {
+                                select(count(from(User.class)));
+                            }
+                        })
+                .getSingleResult();
     }
 }

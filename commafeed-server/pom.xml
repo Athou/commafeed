@@ -14,7 +14,6 @@
 
     <properties>
         <quarkus.version>3.40.1.2</quarkus.version>
-        <querydsl.version>7.7</querydsl.version>
         <rome.version>2.1.0</rome.version>
         <!-- renovate: depName=com.google.googlejavaformat:google-java-format -->
         <google-java-format.version>2.0.0</google-java-format.version>
@@ -324,6 +323,11 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-processor</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>org.graalvm.sdk</groupId>
             <artifactId>nativeimage</artifactId>
             <scope>provided</scope>
@@ -375,18 +379,6 @@
             <groupId>io.dropwizard.metrics</groupId>
             <artifactId>metrics-json</artifactId>
             <version>4.2.40</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.openfeign.querydsl</groupId>
-            <artifactId>querydsl-apt</artifactId>
-            <version>${querydsl.version}</version>
-            <scope>provided</scope>
-            <classifier>jakarta</classifier>
-        </dependency>
-        <dependency>
-            <groupId>io.github.openfeign.querydsl</groupId>
-            <artifactId>querydsl-jpa</artifactId>
-            <version>${querydsl.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>

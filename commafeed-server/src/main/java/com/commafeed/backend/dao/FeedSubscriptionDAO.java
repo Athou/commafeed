@@ -5,13 +5,13 @@ import com.commafeed.backend.model.AbstractModel;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedSubscription;
+import com.commafeed.backend.model.FeedSubscription_;
 import com.commafeed.backend.model.Models;
-import com.commafeed.backend.model.QFeedSubscription;
 import com.commafeed.backend.model.User;
-import com.querydsl.jpa.JPQLQuery;
 
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.criteria.JoinType;
 
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.event.service.spi.EventListenerRegistry;
@@ -19,6 +19,7 @@ import org.hibernate.event.spi.EventType;
 import org.hibernate.event.spi.PostCommitInsertEventListener;
 import org.hibernate.event.spi.PostInsertEvent;
 import org.hibernate.persister.entity.EntityPersister;
+import org.hibernate.query.criteria.CriteriaDefinition;
 
 import java.util.List;
 import java.util.Set;
@@ -28,17 +29,12 @@ import java.util.stream.Collectors;
 @Singleton
 public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 
-    private static final QFeedSubscription SUBSCRIPTION = QFeedSubscription.feedSubscription;
-
-    private final EntityManager entityManager;
-
     public FeedSubscriptionDAO(EntityManager entityManager, CommaFeedConfiguration config) {
         super(entityManager, FeedSubscription.class, config);
-        this.entityManager = entityManager;
     }
 
     public void onPostCommitInsert(Consumer<FeedSubscription> consumer) {
-        entityManager
+        getEntityManager()
                 .unwrap(SharedSessionContractImplementor.class)
                 .getFactory()
                 .getServiceRegistry()
@@ -67,52 +63,92 @@ public class FeedSubscriptionDAO extends GenericDAO<FeedSubscription> {
 
     public FeedSubscription findById(User user, Long id) {
         List<FeedSubscription> subs =
-                query().selectFrom(SUBSCRIPTION)
-                        .where(SUBSCRIPTION.user.eq(user), SUBSCRIPTION.id.eq(id))
-                        .leftJoin(SUBSCRIPTION.feed)
-                        .fetchJoin()
-                        .leftJoin(SUBSCRIPTION.category)
-                        .fetchJoin()
-                        .fetch();
+                query(
+                                new CriteriaDefinition<>(getEntityManager(), FeedSubscription.class) {
+                                    {
+                                        var sub = from(FeedSubscription.class);
+                                        sub.fetch(FeedSubscription_.feed, JoinType.LEFT);
+                                        sub.fetch(FeedSubscription_.category, JoinType.LEFT);
+                                        where(
+                                                equal(sub.get(FeedSubscription_.user), user),
+                                                equal(sub.get(FeedSubscription_.id), id));
+                                    }
+                                })
+                        .getResultList();
         FeedSubscription sub = subs.stream().findFirst().orElse(null);
         return initRelations(sub);
     }
 
     public List<FeedSubscription> findByFeed(Feed feed) {
-        return query().selectFrom(SUBSCRIPTION).where(SUBSCRIPTION.feed.eq(feed)).fetch();
+        return query(
+                        new CriteriaDefinition<>(getEntityManager(), FeedSubscription.class) {
+                            {
+                                var sub = from(FeedSubscription.class);
+                                where(equal(sub.get(FeedSubscription_.feed), feed));
+                            }
+                        })
+                .getResultList();
     }
 
     public FeedSubscription findByFeed(User user, Feed feed) {
         List<FeedSubscription> subs =
-                query().selectFrom(SUBSCRIPTION).where(SUBSCRIPTION.user.eq(user), SUBSCRIPTION.feed.eq(feed)).fetch();
+                query(
+                                new CriteriaDefinition<>(getEntityManager(), FeedSubscription.class) {
+                                    {
+                                        var sub = from(FeedSubscription.class);
+                                        where(
+                                                equal(sub.get(FeedSubscription_.user), user),
+                                                equal(sub.get(FeedSubscription_.feed), feed));
+                                    }
+                                })
+                        .getResultList();
         FeedSubscription sub = subs.stream().findFirst().orElse(null);
         return initRelations(sub);
     }
 
     public List<FeedSubscription> findAll(User user) {
         List<FeedSubscription> subs =
-                query().selectFrom(SUBSCRIPTION)
-                        .where(SUBSCRIPTION.user.eq(user))
-                        .leftJoin(SUBSCRIPTION.feed)
-                        .fetchJoin()
-                        .leftJoin(SUBSCRIPTION.category)
-                        .fetchJoin()
-                        .fetch();
+                query(
+                                new CriteriaDefinition<>(getEntityManager(), FeedSubscription.class) {
+                                    {
+                                        var sub = from(FeedSubscription.class);
+                                        sub.fetch(FeedSubscription_.feed, JoinType.LEFT);
+                                        sub.fetch(FeedSubscription_.category, JoinType.LEFT);
+                                        where(equal(sub.get(FeedSubscription_.user), user));
+                                    }
+                                })
+                        .getResultList();
         return initRelations(subs);
     }
 
     public Long count(User user) {
-        return query().select(SUBSCRIPTION.count()).from(SUBSCRIPTION).where(SUBSCRIPTION.user.eq(user)).fetchOne();
+        return query(
+                        new CriteriaDefinition<>(getEntityManager(), Long.class) {
+                            {
+                                var sub = from(FeedSubscription.class);
+                                select(count(sub));
+                                where(equal(sub.get(FeedSubscription_.user), user));
+                            }
+                        })
+                .getSingleResult();
     }
 
     public List<FeedSubscription> findByCategory(User user, FeedCategory category) {
-        JPQLQuery<FeedSubscription> query = query().selectFrom(SUBSCRIPTION).where(SUBSCRIPTION.user.eq(user));
-        if (category == null) {
-            query.where(SUBSCRIPTION.category.isNull());
-        } else {
-            query.where(SUBSCRIPTION.category.eq(category));
-        }
-        return initRelations(query.fetch());
+        List<FeedSubscription> subs =
+                query(
+                                new CriteriaDefinition<>(getEntityManager(), FeedSubscription.class) {
+                                    {
+                                        var sub = from(FeedSubscription.class);
+                                        var categoryPath = sub.get(FeedSubscription_.category);
+                                        where(
+                                                equal(sub.get(FeedSubscription_.user), user),
+                                                category == null
+                                                        ? isNull(categoryPath)
+                                                        : equal(categoryPath, category));
+                                    }
+                                })
+                        .getResultList();
+        return initRelations(subs);
     }
 
     public List<FeedSubscription> findByCategories(User user, List<FeedCategory> categories) {

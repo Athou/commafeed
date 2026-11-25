@@ -4,28 +4,35 @@ import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.feed.FeedEntryKeyword;
 import com.commafeed.backend.feed.FeedEntryKeyword.Mode;
 import com.commafeed.backend.model.FeedEntry;
+import com.commafeed.backend.model.FeedEntryContent;
+import com.commafeed.backend.model.FeedEntryContent_;
 import com.commafeed.backend.model.FeedEntryStatus;
+import com.commafeed.backend.model.FeedEntryStatus_;
 import com.commafeed.backend.model.FeedEntryTag;
+import com.commafeed.backend.model.FeedEntryTag_;
+import com.commafeed.backend.model.FeedEntry_;
 import com.commafeed.backend.model.FeedSubscription;
-import com.commafeed.backend.model.QFeed;
-import com.commafeed.backend.model.QFeedEntry;
-import com.commafeed.backend.model.QFeedEntryContent;
-import com.commafeed.backend.model.QFeedEntryStatus;
-import com.commafeed.backend.model.QFeedEntryTag;
-import com.commafeed.backend.model.QFeedSubscription;
+import com.commafeed.backend.model.FeedSubscription_;
+import com.commafeed.backend.model.Feed_;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
+import com.commafeed.backend.model.User_;
 import com.commafeed.frontend.model.UnreadCount;
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.Tuple;
-import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.core.types.dsl.NumberExpression;
-import com.querydsl.jpa.impl.JPAQuery;
 
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Tuple;
+import jakarta.persistence.criteria.Expression;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Path;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.hibernate.query.common.TemporalUnit;
+import org.hibernate.query.criteria.CriteriaDefinition;
+import org.hibernate.query.criteria.HibernateCriteriaBuilder;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -36,13 +43,6 @@ import java.util.stream.Collectors;
 
 @Singleton
 public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
-
-    private static final QFeedEntryStatus STATUS = QFeedEntryStatus.feedEntryStatus;
-    private static final QFeedEntry ENTRY = QFeedEntry.feedEntry;
-    private static final QFeed FEED = QFeed.feed;
-    private static final QFeedEntryContent CONTENT = QFeedEntryContent.feedEntryContent;
-    private static final QFeedEntryTag TAG = QFeedEntryTag.feedEntryTag;
-    private static final QFeedSubscription SUBSCRIPTION = QFeedSubscription.feedSubscription;
 
     private final FeedEntryTagDAO feedEntryTagDAO;
     private final CommaFeedConfiguration config;
@@ -56,7 +56,16 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
     public FeedEntryStatus getStatus(User user, FeedSubscription sub, FeedEntry entry) {
         List<FeedEntryStatus> statuses =
-                query().selectFrom(STATUS).where(STATUS.entry.eq(entry), STATUS.subscription.eq(sub)).fetch();
+                query(
+                                new CriteriaDefinition<>(getEntityManager(), FeedEntryStatus.class) {
+                                    {
+                                        var status = from(FeedEntryStatus.class);
+                                        where(
+                                                equal(status.get(FeedEntryStatus_.entry), entry),
+                                                equal(status.get(FeedEntryStatus_.subscription), sub));
+                                    }
+                                })
+                        .getResultList();
         FeedEntryStatus status = statuses.stream().findFirst().orElse(null);
         return handleStatus(user, status, sub, entry);
     }
@@ -92,36 +101,48 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
             int limit,
             ReadingOrder order,
             boolean includeContent) {
-        JPAQuery<FeedEntryStatus> query =
-                query().selectFrom(STATUS).where(STATUS.user.eq(user), STATUS.starred.isTrue());
-        if (includeContent || CollectionUtils.isNotEmpty(keywords)) {
-            query.join(STATUS.entry).fetchJoin();
-            query.join(STATUS.entry.content, CONTENT).fetchJoin();
-        }
+        var criteria =
+                new CriteriaDefinition<>(getEntityManager(), FeedEntryStatus.class) {
+                    {
+                        var status = from(FeedEntryStatus.class);
+                        where(
+                                equal(status.get(FeedEntryStatus_.user), user),
+                                isTrue(status.get(FeedEntryStatus_.starred)));
 
-        if (CollectionUtils.isNotEmpty(keywords)) {
-            applyKeywordsFilter(query, keywords);
-        }
+                        if (includeContent || CollectionUtils.isNotEmpty(keywords)) {
+                            var entry = fetchJoin(status, FeedEntryStatus_.entry, JoinType.INNER);
+                            var content = fetchJoin(entry, FeedEntry_.content, JoinType.INNER);
+                            if (CollectionUtils.isNotEmpty(keywords)) {
+                                restrict(keywordsPredicate(this, content, keywords));
+                            }
+                        }
 
-        if (newerThan != null) {
-            query.where(STATUS.entryInserted.gt(newerThan));
-        }
+                        if (newerThan != null) {
+                            restrict(greaterThan(status.get(FeedEntryStatus_.entryInserted), newerThan));
+                        }
 
-        if (order == ReadingOrder.ASC) {
-            query.orderBy(STATUS.entryPublished.asc(), STATUS.id.asc());
-        } else {
-            query.orderBy(STATUS.entryPublished.desc(), STATUS.id.desc());
-        }
+                        if (order == ReadingOrder.ASC) {
+                            orderBy(
+                                    asc(status.get(FeedEntryStatus_.entryPublished)),
+                                    asc(status.get(FeedEntryStatus_.id)));
+                        } else {
+                            orderBy(
+                                    desc(status.get(FeedEntryStatus_.entryPublished)),
+                                    desc(status.get(FeedEntryStatus_.id)));
+                        }
+                    }
+                };
 
+        var query = query(criteria);
         if (offset > -1) {
-            query.offset(offset);
+            query.setFirstResult(offset);
         }
 
         if (limit > -1) {
-            query.limit(limit);
+            query.setMaxResults(limit);
         }
 
-        List<FeedEntryStatus> statuses = query.fetch();
+        List<FeedEntryStatus> statuses = query.getResultList();
         statuses.forEach(s -> s.setMarkable(true));
         if (includeContent) {
             fetchTags(user, statuses);
@@ -146,62 +167,72 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
         Map<Long, List<FeedSubscription>> subsByFeedId =
                 subs.stream().collect(Collectors.groupingBy(s -> s.getFeed().getId()));
 
-        JPAQuery<Tuple> query = query().select(ENTRY, STATUS).from(ENTRY);
-        query.leftJoin(ENTRY.statuses, STATUS).on(STATUS.subscription.in(subs));
-        query.where(ENTRY.feed.id.in(subsByFeedId.keySet()));
+        var criteria =
+                new CriteriaDefinition<>(getEntityManager(), Tuple.class) {
+                    final Root<FeedEntry> entry;
+                    final Join<FeedEntry, FeedEntryStatus> status;
 
-        if (includeContent || CollectionUtils.isNotEmpty(keywords)) {
-            query.join(ENTRY.content, CONTENT).fetchJoin();
-        }
+                    {
+                        entry = from(FeedEntry.class);
+                        status = entry.join(FeedEntry_.statuses, JoinType.LEFT);
+                        status.on(status.get(FeedEntryStatus_.subscription).in(subs));
+                        select(tuple(entry, status));
+                        where(entry.get(FeedEntry_.feed).get(Feed_.id).in(subsByFeedId.keySet()));
 
-        if (CollectionUtils.isNotEmpty(keywords)) {
-            applyKeywordsFilter(query, keywords);
-        }
+                        if (includeContent || CollectionUtils.isNotEmpty(keywords)) {
+                            var content = fetchJoin(entry, FeedEntry_.content, JoinType.INNER);
+                            if (CollectionUtils.isNotEmpty(keywords)) {
+                                restrict(keywordsPredicate(this, content, keywords));
+                            }
+                        }
 
-        if (unreadOnly && tag == null) {
-            query.where(buildUnreadPredicate());
-        }
+                        if (unreadOnly && tag == null) {
+                            restrict(unreadPredicate(this, entry, status));
+                        }
 
-        if (tag != null) {
-            BooleanBuilder and = new BooleanBuilder();
-            and.and(TAG.user.id.eq(user.getId()));
-            and.and(TAG.name.eq(tag));
-            query.join(ENTRY.tags, TAG).on(and);
-        }
+                        if (tag != null) {
+                            var tagJoin = entry.join(FeedEntry_.tags, JoinType.INNER);
+                            tagJoin.on(
+                                    equal(tagJoin.get(FeedEntryTag_.user).get(User_.id), user.getId()),
+                                    equal(tagJoin.get(FeedEntryTag_.name), tag));
+                        }
 
-        if (newerThan != null) {
-            query.where(ENTRY.inserted.goe(newerThan));
-        }
+                        if (newerThan != null) {
+                            restrict(greaterThanOrEqualTo(entry.get(FeedEntry_.inserted), newerThan));
+                        }
 
-        if (minEntryId != null) {
-            query.where(ENTRY.id.gt(minEntryId));
-        }
+                        if (minEntryId != null) {
+                            restrict(greaterThan(entry.get(FeedEntry_.id), minEntryId));
+                        }
 
-        if (maxEntryId != null) {
-            query.where(ENTRY.id.lt(maxEntryId));
-        }
+                        if (maxEntryId != null) {
+                            restrict(lessThan(entry.get(FeedEntry_.id), maxEntryId));
+                        }
 
-        if (order != null) {
-            if (order == ReadingOrder.ASC) {
-                query.orderBy(ENTRY.published.asc(), ENTRY.id.asc());
-            } else {
-                query.orderBy(ENTRY.published.desc(), ENTRY.id.desc());
-            }
-        }
+                        if (order != null) {
+                            if (order == ReadingOrder.ASC) {
+                                orderBy(asc(entry.get(FeedEntry_.published)), asc(entry.get(FeedEntry_.id)));
+                            } else {
+                                orderBy(desc(entry.get(FeedEntry_.published)), desc(entry.get(FeedEntry_.id)));
+                            }
+                        }
+                    }
+                };
 
+        var query = query(criteria);
         if (offset > -1) {
-            query.offset(offset);
+            query.setFirstResult(offset);
         }
 
         if (limit > -1) {
-            query.limit(limit);
+            query.setMaxResults(limit);
         }
 
         List<FeedEntryStatus> statuses = new ArrayList<>();
-        List<Tuple> tuples = query.fetch();
+        List<Tuple> tuples = query.getResultList();
         for (Tuple tuple : tuples) {
-            FeedEntry e = tuple.get(ENTRY);
-            FeedEntryStatus s = tuple.get(STATUS);
+            FeedEntry e = tuple.get(criteria.entry);
+            FeedEntryStatus s = tuple.get(criteria.status);
             for (FeedSubscription sub : subsByFeedId.get(e.getFeed().getId())) {
                 statuses.add(handleStatus(user, s, sub, e));
             }
@@ -214,16 +245,17 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
         return statuses;
     }
 
-    private void applyKeywordsFilter(JPAQuery<?> query, List<FeedEntryKeyword> keywords) {
+    private static Predicate keywordsPredicate(
+            HibernateCriteriaBuilder cb, Path<FeedEntryContent> content, List<FeedEntryKeyword> keywords) {
+        List<Predicate> predicates = new ArrayList<>();
         for (FeedEntryKeyword keyword : keywords) {
-            BooleanBuilder or = new BooleanBuilder();
-            or.or(CONTENT.content.containsIgnoreCase(keyword.keyword()));
-            or.or(CONTENT.title.containsIgnoreCase(keyword.keyword()));
-            if (keyword.mode() == Mode.EXCLUDE) {
-                or.not();
-            }
-            query.where(or);
+            Predicate or =
+                    cb.or(
+                            containsIgnoreCase(cb, content.get(FeedEntryContent_.content), keyword.keyword()),
+                            containsIgnoreCase(cb, content.get(FeedEntryContent_.title), keyword.keyword()));
+            predicates.add(keyword.mode() == Mode.EXCLUDE ? cb.not(or) : or);
         }
+        return cb.and(predicates);
     }
 
     public Map<Long, UnreadCount> getUnreadCounts(List<FeedSubscription> subs) {
@@ -234,20 +266,32 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
         Map<Long, List<FeedSubscription>> subsByFeedId =
                 subs.stream().collect(Collectors.groupingBy(s -> s.getFeed().getId()));
 
-        JPAQuery<Tuple> query =
-                query().select(ENTRY.feed.id, ENTRY.count(), ENTRY.published.max())
-                        .from(ENTRY)
-                        .leftJoin(ENTRY.statuses, STATUS)
-                        .on(STATUS.subscription.in(subs))
-                        .where(ENTRY.feed.id.in(subsByFeedId.keySet()))
-                        .where(buildUnreadPredicate())
-                        .groupBy(ENTRY.feed.id);
+        var criteria =
+                new CriteriaDefinition<>(getEntityManager(), Tuple.class) {
+                    final Path<Long> feedId;
+                    final Expression<Long> count;
+                    final Expression<Instant> maxPublished;
+
+                    {
+                        var entry = from(FeedEntry.class);
+                        var status = entry.join(FeedEntry_.statuses, JoinType.LEFT);
+                        status.on(status.get(FeedEntryStatus_.subscription).in(subs));
+
+                        feedId = entry.get(FeedEntry_.feed).get(Feed_.id);
+                        count = count(entry);
+                        maxPublished = greatest(entry.get(FeedEntry_.published));
+                        select(tuple(feedId, count, maxPublished));
+
+                        where(feedId.in(subsByFeedId.keySet()), unreadPredicate(this, entry, status));
+                        groupBy(feedId);
+                    }
+                };
 
         Map<Long, UnreadCount> result = new HashMap<>();
-        for (Tuple tuple : query.fetch()) {
-            Long feedId = tuple.get(ENTRY.feed.id);
-            Long count = tuple.get(ENTRY.count());
-            Instant published = tuple.get(ENTRY.published.max());
+        for (Tuple tuple : query(criteria).getResultList()) {
+            Long feedId = tuple.get(criteria.feedId);
+            Long count = tuple.get(criteria.count);
+            Instant published = tuple.get(criteria.maxPublished);
             for (FeedSubscription sub : subsByFeedId.get(feedId)) {
                 result.put(sub.getId(), new UnreadCount(sub.getId(), count == null ? 0 : count, published));
             }
@@ -261,75 +305,89 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
         return result;
     }
 
-    private BooleanBuilder buildUnreadPredicate() {
-        BooleanBuilder or = new BooleanBuilder();
-        or.or(STATUS.read.isNull());
-        or.or(STATUS.read.isFalse());
+    private Predicate unreadPredicate(
+            HibernateCriteriaBuilder cb, Path<FeedEntry> entry, Path<FeedEntryStatus> status) {
+        Path<Boolean> read = status.get(FeedEntryStatus_.read);
+        Predicate unread = cb.or(cb.isNull(read), cb.isFalse(read));
 
         Instant statusesInstantThreshold = config.database().cleanup().statusesInstantThreshold();
         if (statusesInstantThreshold != null) {
-            return or.and(ENTRY.published.goe(statusesInstantThreshold));
+            return cb.and(unread, cb.greaterThanOrEqualTo(entry.get(FeedEntry_.published), statusesInstantThreshold));
         } else {
-            return or;
+            return unread;
         }
     }
 
     public long deleteOldStatuses(Instant olderThan, int limit) {
         List<Long> ids =
-                query().select(STATUS.id)
-                        .from(STATUS)
-                        .where(STATUS.entryInserted.lt(olderThan), STATUS.starred.isFalse())
-                        .limit(limit)
-                        .fetch();
-        return deleteQuery(STATUS).where(STATUS.id.in(ids)).execute();
+                query(
+                                new CriteriaDefinition<>(getEntityManager(), Long.class) {
+                                    {
+                                        var status = from(FeedEntryStatus.class);
+                                        select(status.get(FeedEntryStatus_.id));
+                                        where(
+                                                lessThan(status.get(FeedEntryStatus_.entryInserted), olderThan),
+                                                isFalse(status.get(FeedEntryStatus_.starred)));
+                                    }
+                                })
+                        .setMaxResults(limit)
+                        .getResultList();
+        return deleteByIds(ids);
     }
 
     public long autoMarkAsRead(int limit) {
         Instant now = Instant.now();
 
-        BooleanBuilder where = new BooleanBuilder();
-        where.and(SUBSCRIPTION.autoMarkAsReadAfterDays.isNotNull());
-        where.and(SUBSCRIPTION.autoMarkAsReadAfterDays.gt(0));
+        var criteria =
+                new CriteriaDefinition<>(getEntityManager(), Tuple.class) {
+                    final Root<FeedEntry> entry;
+                    final Join<FeedEntry, FeedEntryStatus> status;
+                    final Join<FeedEntry, FeedSubscription> subscription;
 
-        NumberExpression<Integer> daysDiff =
-                Expressions.numberTemplate(Integer.class, "TIMESTAMPDIFF(DAY, {0}, {1})", ENTRY.published, now);
-        where.and(daysDiff.goe(SUBSCRIPTION.autoMarkAsReadAfterDays));
+                    {
+                        entry = from(FeedEntry.class);
+                        var feed = entry.join(FeedEntry_.feed);
+                        subscription = entry.join(FeedSubscription.class);
+                        subscription.on(equal(subscription.get(FeedSubscription_.feed), feed));
+                        status = entry.join(FeedEntry_.statuses, JoinType.LEFT);
+                        status.on(equal(status.get(FeedEntryStatus_.subscription), subscription));
+                        select(tuple(entry, status, subscription));
 
-        where.and(buildUnreadPredicate());
+                        var autoMarkAsReadAfterDays = subscription.get(FeedSubscription_.autoMarkAsReadAfterDays);
+                        var daysSincePublished =
+                                durationByUnit(
+                                        TemporalUnit.DAY, durationBetween(value(now), entry.get(FeedEntry_.published)));
+                        where(
+                                isNotNull(autoMarkAsReadAfterDays),
+                                greaterThan(autoMarkAsReadAfterDays, 0),
+                                ge(daysSincePublished, autoMarkAsReadAfterDays),
+                                unreadPredicate(this, entry, status));
+                    }
+                };
 
-        List<Tuple> tuples =
-                query().select(ENTRY, STATUS, SUBSCRIPTION)
-                        .from(ENTRY)
-                        .join(ENTRY.feed, FEED)
-                        .join(SUBSCRIPTION)
-                        .on(SUBSCRIPTION.feed.eq(FEED))
-                        .leftJoin(ENTRY.statuses, STATUS)
-                        .on(STATUS.subscription.eq(SUBSCRIPTION))
-                        .where(where)
-                        .limit(limit)
-                        .fetch();
+        List<Tuple> tuples = query(criteria).setMaxResults(limit).getResultList();
 
         long updated = 0;
 
         // Update existing statuses
         List<Long> statusIdsToUpdate =
                 tuples.stream()
-                        .map(t -> t.get(STATUS))
+                        .map(t -> t.get(criteria.status))
                         .filter(s -> s != null && s.getId() != null)
                         .map(FeedEntryStatus::getId)
                         .distinct()
                         .toList();
 
         if (!statusIdsToUpdate.isEmpty()) {
-            updated += updateQuery(STATUS).where(STATUS.id.in(statusIdsToUpdate)).set(STATUS.read, true).execute();
+            updated += updateByIds(statusIdsToUpdate, update -> update.set(FeedEntryStatus_.read, true));
         }
 
         // Insert new statuses for entries without existing status
         for (Tuple tuple : tuples) {
-            FeedEntryStatus status = tuple.get(STATUS);
+            FeedEntryStatus status = tuple.get(criteria.status);
             if (status == null || status.getId() == null) {
-                FeedEntry entry = tuple.get(ENTRY);
-                FeedSubscription sub = tuple.get(SUBSCRIPTION);
+                FeedEntry entry = tuple.get(criteria.entry);
+                FeedSubscription sub = tuple.get(criteria.subscription);
                 FeedEntryStatus newStatus = new FeedEntryStatus(sub.getUser(), sub, entry);
                 newStatus.setRead(true);
                 persist(newStatus);

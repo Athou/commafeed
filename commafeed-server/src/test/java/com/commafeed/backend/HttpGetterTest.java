@@ -47,6 +47,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.GZIPOutputStream;
 
+import javax.net.ssl.SSLHandshakeException;
+
 @Slf4j
 class HttpGetterTest {
 
@@ -338,13 +340,32 @@ class HttpGetterTest {
     }
 
     @Test
-    void ignoreInvalidSsl() throws Exception {
+    void rejectsUntrustedCertificateByDefault() {
+        this.mockServerClient
+                .when(HttpRequest.request().withMethod("GET"))
+                .respond(HttpResponse.response().withBody("ok"));
+
+        // mockserver uses a certificate signed by its own CA, which is not in the default truststore
+        Assertions.assertThrows(
+                SSLHandshakeException.class, () -> getter.get("https://localhost:" + this.mockServerClient.getPort()));
+    }
+
+    @Test
+    void acceptsUntrustedCertificateWhenTrustAllCertificatesIsEnabled() throws Exception {
+        trustAllCertificates();
+
         this.mockServerClient
                 .when(HttpRequest.request().withMethod("GET"))
                 .respond(HttpResponse.response().withBody("ok"));
 
         HttpResult result = getter.get("https://localhost:" + this.mockServerClient.getPort());
         Assertions.assertEquals("ok", new String(result.content()));
+    }
+
+    private void trustAllCertificates() {
+        Mockito.when(config.httpClient().trustAllCertificates()).thenReturn(true);
+        this.provider = new HttpClientFactory(config, Mockito.mock(CommaFeedVersion.class));
+        this.getter = new HttpGetter(config, () -> NOW, provider, Mockito.mock(MetricRegistry.class));
     }
 
     @Test
@@ -531,6 +552,8 @@ class HttpGetterTest {
     class Protocols {
         @Test
         void usesHttp2OverTls() throws Exception {
+            trustAllCertificates();
+
             mockServerClient
                     .when(HttpRequest.request().withMethod("GET").withProtocol(Protocol.HTTP_2))
                     .respond(HttpResponse.response().withBody("h2"));

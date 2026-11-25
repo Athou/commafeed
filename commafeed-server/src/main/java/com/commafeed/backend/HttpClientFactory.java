@@ -109,7 +109,10 @@ public class HttpClientFactory {
     }
 
     private PoolingAsyncClientConnectionManager newConnectionManager(CommaFeedConfiguration config, int poolSize) {
-        SSLFactory sslFactory = SSLFactory.builder().withUnsafeTrustMaterial().withUnsafeHostnameVerifier().build();
+        SSLFactory sslFactory =
+                config.httpClient().trustAllCertificates()
+                        ? SSLFactory.builder().withUnsafeTrustMaterial().withUnsafeHostnameVerifier().build()
+                        : SSLFactory.builder().withDefaultTrustMaterial().withSystemTrustMaterial().build();
         DnsResolver dnsResolver =
                 config.httpClient().blockLocalAddresses()
                         ? new BlockLocalAddressesDnsResolver(DNS_RESOLVER)

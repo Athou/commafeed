@@ -129,6 +129,13 @@ public interface CommaFeedConfiguration {
         @WithDefault("true")
         boolean blockLocalAddresses();
 
+        /**
+         * Disable TLS certificate validation (trust all certificates, including self-signed, expired or issued for a
+         * different host) when fetching feeds, favicons, proxied images and sending push notifications.
+         */
+        @WithDefault("false")
+        boolean trustAllCertificates();
+
         /** HTTP client cache configuration */
         @ConfigDocSection
         HttpClientCache cache();

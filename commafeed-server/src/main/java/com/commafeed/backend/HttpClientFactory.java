@@ -112,7 +112,7 @@ public class HttpClientFactory {
         SSLFactory sslFactory =
                 config.httpClient().trustAllCertificates()
                         ? SSLFactory.builder().withUnsafeTrustMaterial().withUnsafeHostnameVerifier().build()
-                        : SSLFactory.builder().withDefaultTrustMaterial().withSystemTrustMaterial().build();
+                        : SSLFactory.builder().withDefaultTrustMaterial().build();
         DnsResolver dnsResolver =
                 config.httpClient().blockLocalAddresses()
                         ? new BlockLocalAddressesDnsResolver(DNS_RESOLVER)

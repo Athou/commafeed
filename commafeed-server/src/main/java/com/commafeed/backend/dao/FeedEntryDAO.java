@@ -11,7 +11,6 @@ import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Tuple;
 import jakarta.persistence.criteria.Expression;
-import jakarta.persistence.criteria.Path;
 
 import org.hibernate.query.criteria.CriteriaDefinition;
 
@@ -70,7 +69,7 @@ public class FeedEntryDAO extends GenericDAO<FeedEntry> {
     public List<FeedCapacity> findFeedsExceedingCapacity(long maxCapacity, long max, boolean keepStarredEntries) {
         var criteria =
                 new CriteriaDefinition<>(getEntityManager(), Tuple.class) {
-                    final Path<Long> feedId;
+                    final Expression<Long> feedId;
                     final Expression<Long> count;
 
                     {

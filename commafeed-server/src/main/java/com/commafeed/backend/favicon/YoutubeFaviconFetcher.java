@@ -7,9 +7,6 @@ import com.commafeed.backend.HttpGetter.NotModifiedException;
 import com.commafeed.backend.HttpGetter.SchemeNotAllowedException;
 import com.commafeed.backend.HttpGetter.TooManyRequestsException;
 import com.commafeed.backend.model.Feed;
-import com.fasterxml.jackson.core.JsonPointer;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.annotation.Priority;
 import jakarta.inject.Singleton;
@@ -21,6 +18,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.hc.core5.http.NameValuePair;
 import org.apache.hc.core5.net.URIBuilder;
+
+import tools.jackson.core.JsonPointer;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
 import java.net.URI;
@@ -41,7 +42,7 @@ public class YoutubeFaviconFetcher implements FaviconFetcher {
 
     private final HttpGetter getter;
     private final CommaFeedConfiguration config;
-    private final ObjectMapper objectMapper;
+    private final JsonMapper jsonMapper;
 
     @Override
     public Favicon fetch(Feed feed) {
@@ -81,13 +82,13 @@ public class YoutubeFaviconFetcher implements FaviconFetcher {
                 return null;
             }
 
-            JsonNode thumbnailUrl = objectMapper.readTree(response).at(CHANNEL_THUMBNAIL_URL);
+            JsonNode thumbnailUrl = jsonMapper.readTree(response).at(CHANNEL_THUMBNAIL_URL);
             if (thumbnailUrl.isMissingNode()) {
                 log.debug("youtube api returned invalid response");
                 return null;
             }
 
-            HttpResult iconResult = getter.get(thumbnailUrl.asText());
+            HttpResult iconResult = getter.get(thumbnailUrl.asString());
             return new Favicon(iconResult.content(), iconResult.contentType());
         } catch (Exception e) {
             log.debug("Failed to retrieve YouTube icon", e);
@@ -127,11 +128,11 @@ public class YoutubeFaviconFetcher implements FaviconFetcher {
                         .build();
         byte[] playlistBytes = getter.get(uri.toString()).content();
 
-        JsonNode channelId = objectMapper.readTree(playlistBytes).at(PLAYLIST_CHANNEL_ID);
+        JsonNode channelId = jsonMapper.readTree(playlistBytes).at(PLAYLIST_CHANNEL_ID);
         if (channelId.isMissingNode()) {
             return new byte[0];
         }
 
-        return fetchForChannel(googleAuthKey, channelId.asText());
+        return fetchForChannel(googleAuthKey, channelId.asString());
     }
 }

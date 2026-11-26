@@ -4,9 +4,6 @@ import com.commafeed.CommaFeedConfiguration;
 import com.commafeed.backend.HttpGetter;
 import com.commafeed.backend.HttpGetter.HttpResult;
 import com.commafeed.backend.model.Feed;
-import com.fasterxml.jackson.core.JsonPointer;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.ws.rs.core.MediaType;
 
@@ -17,6 +14,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import tools.jackson.core.JsonPointer;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -29,13 +30,13 @@ class YoutubeFaviconFetcherTest {
 
     @Mock private CommaFeedConfiguration config;
 
-    @Mock private ObjectMapper objectMapper;
+    @Mock private JsonMapper jsonMapper;
 
     private YoutubeFaviconFetcher faviconFetcher;
 
     @BeforeEach
     void init() {
-        faviconFetcher = new YoutubeFaviconFetcher(httpGetter, config, objectMapper);
+        faviconFetcher = new YoutubeFaviconFetcher(httpGetter, config, jsonMapper);
     }
 
     @Test
@@ -44,7 +45,7 @@ class YoutubeFaviconFetcherTest {
         feed.setUrl("https://example.com/feed");
 
         Assertions.assertNull(faviconFetcher.fetch(feed));
-        Mockito.verifyNoInteractions(httpGetter, objectMapper);
+        Mockito.verifyNoInteractions(httpGetter, jsonMapper);
     }
 
     @Test
@@ -56,7 +57,7 @@ class YoutubeFaviconFetcherTest {
 
         Assertions.assertNull(faviconFetcher.fetch(feed));
         Mockito.verify(config).googleAuthKey();
-        Mockito.verifyNoInteractions(httpGetter, objectMapper);
+        Mockito.verifyNoInteractions(httpGetter, jsonMapper);
     }
 
     @Test
@@ -77,8 +78,8 @@ class YoutubeFaviconFetcherTest {
                                 "https://www.googleapis.com/youtube/v3/channels?part=snippet&key=test-api-key&forUsername=testUser"))
                 .thenReturn(apiHttpResult);
 
-        JsonNode jsonNode = new ObjectMapper().readTree(apiResponse);
-        Mockito.when(objectMapper.readTree(apiResponse)).thenReturn(jsonNode);
+        JsonNode jsonNode = new JsonMapper().readTree(apiResponse);
+        Mockito.when(jsonMapper.readTree(apiResponse)).thenReturn(jsonNode);
 
         byte[] iconBytes = new byte[1000];
         String contentType = "image/png";
@@ -110,8 +111,8 @@ class YoutubeFaviconFetcherTest {
                                 "https://www.googleapis.com/youtube/v3/channels?part=snippet&key=test-api-key&id=testChannelId"))
                 .thenReturn(apiHttpResult);
 
-        JsonNode jsonNode = new ObjectMapper().readTree(apiResponse);
-        Mockito.when(objectMapper.readTree(apiResponse)).thenReturn(jsonNode);
+        JsonNode jsonNode = new JsonMapper().readTree(apiResponse);
+        Mockito.when(jsonMapper.readTree(apiResponse)).thenReturn(jsonNode);
 
         byte[] iconBytes = new byte[1000];
         String contentType = "image/png";
@@ -144,8 +145,8 @@ class YoutubeFaviconFetcherTest {
                                 "https://www.googleapis.com/youtube/v3/playlists?part=snippet&key=test-api-key&id=testPlaylistId"))
                 .thenReturn(playlistHttpResult);
 
-        JsonNode playlistJsonNode = new ObjectMapper().readTree(playlistResponse);
-        Mockito.when(objectMapper.readTree(playlistResponse)).thenReturn(playlistJsonNode);
+        JsonNode playlistJsonNode = new JsonMapper().readTree(playlistResponse);
+        Mockito.when(jsonMapper.readTree(playlistResponse)).thenReturn(playlistJsonNode);
 
         byte[] channelResponse =
                 """
@@ -159,8 +160,8 @@ class YoutubeFaviconFetcherTest {
                                 "https://www.googleapis.com/youtube/v3/channels?part=snippet&key=test-api-key&id=testChannelId"))
                 .thenReturn(channelHttpResult);
 
-        JsonNode channelJsonNode = new ObjectMapper().readTree(channelResponse);
-        Mockito.when(objectMapper.readTree(channelResponse)).thenReturn(channelJsonNode);
+        JsonNode channelJsonNode = new JsonMapper().readTree(channelResponse);
+        Mockito.when(jsonMapper.readTree(channelResponse)).thenReturn(channelJsonNode);
 
         byte[] iconBytes = new byte[1000];
         String contentType = "image/png";
@@ -204,7 +205,7 @@ class YoutubeFaviconFetcherTest {
                 .thenReturn(apiHttpResult);
 
         JsonNode jsonNode = Mockito.mock(JsonNode.class);
-        Mockito.when(objectMapper.readTree(apiResponse)).thenReturn(jsonNode);
+        Mockito.when(jsonMapper.readTree(apiResponse)).thenReturn(jsonNode);
         Mockito.when(jsonNode.at(Mockito.any(JsonPointer.class))).thenReturn(jsonNode);
         Mockito.when(jsonNode.isMissingNode()).thenReturn(true);
 

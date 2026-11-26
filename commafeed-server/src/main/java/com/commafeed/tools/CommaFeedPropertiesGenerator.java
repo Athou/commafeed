@@ -34,7 +34,7 @@ public class CommaFeedPropertiesGenerator {
 
     private final List<String> lines = new ArrayList<>();
 
-    public static void main(String[] args) throws Exception {
+    static void main(String[] args) throws Exception {
         Path targetPath = Paths.get(args[0]);
 
         Path modelPath = targetPath.resolve(Outputs.QUARKUS_CONFIG_DOC_MODEL);
@@ -49,8 +49,9 @@ public class CommaFeedPropertiesGenerator {
     }
 
     void generate(InputStream model, InputStream javadoc, OutputStream output) throws IOException {
-        ResolvedModel resolvedModel = JacksonMappers.yamlObjectReader().readValue(model, ResolvedModel.class);
-        JavadocElements javadocElements = JacksonMappers.yamlObjectReader().readValue(javadoc, JavadocElements.class);
+        ResolvedModel resolvedModel = JacksonMappers.yamlObjectReader().forType(ResolvedModel.class).readValue(model);
+        JavadocElements javadocElements =
+                JacksonMappers.yamlObjectReader().forType(JavadocElements.class).readValue(javadoc);
 
         for (ConfigRoot configRoot : resolvedModel.getConfigRoots()) {
             for (AbstractConfigItem item : configRoot.getItems()) {

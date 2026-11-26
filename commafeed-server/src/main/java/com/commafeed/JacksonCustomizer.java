@@ -1,30 +1,26 @@
 package com.commafeed;
 
-import com.codahale.metrics.json.MetricsModule;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.codahale.metrics.jackson3.MetricsModule;
 
-import io.quarkus.jackson.ObjectMapperCustomizer;
+import io.quarkus.jackson.JsonMapperBuilderCustomizer;
 
 import jakarta.inject.Singleton;
+
+import tools.jackson.databind.cfg.DateTimeFeature;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.util.concurrent.TimeUnit;
 
 @Singleton
-public class JacksonCustomizer implements ObjectMapperCustomizer {
+public class JacksonCustomizer implements JsonMapperBuilderCustomizer {
     @Override
-    public void customize(ObjectMapper objectMapper) {
-        objectMapper.registerModule(new JavaTimeModule());
-
+    public void customize(JsonMapper.Builder builder) {
         // read and write instants as milliseconds instead of nanoseconds
-        objectMapper
-                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true)
-                .configure(SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS, false)
-                .configure(DeserializationFeature.READ_DATE_TIMESTAMPS_AS_NANOSECONDS, false);
+        builder.enable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS)
+                .disable(DateTimeFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS)
+                .disable(DateTimeFeature.READ_DATE_TIMESTAMPS_AS_NANOSECONDS);
 
         // add support for serializing metrics
-        objectMapper.registerModule(new MetricsModule(TimeUnit.SECONDS, TimeUnit.SECONDS, false));
+        builder.addModule(new MetricsModule(TimeUnit.SECONDS, TimeUnit.SECONDS, false));
     }
 }

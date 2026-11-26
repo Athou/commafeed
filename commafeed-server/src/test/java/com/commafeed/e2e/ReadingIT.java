@@ -39,6 +39,9 @@ class ReadingIT {
 
     @BeforeEach
     void init() throws IOException {
+        // the browser context is shared between test classes, make sure we don't reuse a session from a previous test
+        context.clearCookies();
+
         this.mockServerClient = ClientAndServer.startClientAndServer(0);
         this.mockServerClient
                 .when(HttpRequest.request().withMethod("GET"))

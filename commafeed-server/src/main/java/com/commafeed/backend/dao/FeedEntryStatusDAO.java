@@ -268,7 +268,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
         var criteria =
                 new CriteriaDefinition<>(getEntityManager(), Tuple.class) {
-                    final Path<Long> feedId;
+                    final Expression<Long> feedId;
                     final Expression<Long> count;
                     final Expression<Instant> maxPublished;
 
@@ -307,7 +307,7 @@ public class FeedEntryStatusDAO extends GenericDAO<FeedEntryStatus> {
 
     private Predicate unreadPredicate(
             HibernateCriteriaBuilder cb, Path<FeedEntry> entry, Path<FeedEntryStatus> status) {
-        Path<Boolean> read = status.get(FeedEntryStatus_.read);
+        Expression<Boolean> read = status.get(FeedEntryStatus_.read);
         Predicate unread = cb.or(cb.isNull(read), cb.isFalse(read));
 
         Instant statusesInstantThreshold = config.database().cleanup().statusesInstantThreshold();

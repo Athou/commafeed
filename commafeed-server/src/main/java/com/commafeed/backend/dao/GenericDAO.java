@@ -79,7 +79,7 @@ public abstract class GenericDAO<T extends AbstractModel> {
         }
         CriteriaUpdate<T> update = entityManager.getCriteriaBuilder().createCriteriaUpdate(entityClass);
         update.where(update.from(entityClass).get(AbstractModel_.id).in(ids));
-        return entityManager.createQuery(setter.apply(update)).executeUpdate();
+        return entityManager.createStatement(setter.apply(update)).execute();
     }
 
     protected int deleteByIds(Collection<Long> ids) {
@@ -88,7 +88,7 @@ public abstract class GenericDAO<T extends AbstractModel> {
         }
         CriteriaDelete<T> delete = entityManager.getCriteriaBuilder().createCriteriaDelete(entityClass);
         delete.where(delete.from(entityClass).get(AbstractModel_.id).in(ids));
-        return entityManager.createQuery(delete).executeUpdate();
+        return entityManager.createStatement(delete).execute();
     }
 
     public void delete(T object) {

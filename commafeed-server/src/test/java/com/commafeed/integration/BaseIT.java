@@ -10,10 +10,8 @@ import com.commafeed.frontend.model.request.RegistrationRequest;
 import com.commafeed.frontend.model.request.SubscribeRequest;
 
 import io.restassured.RestAssured;
-import io.restassured.config.ObjectMapperConfig;
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
-import io.restassured.mapper.ObjectMapperType;
 
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.core.HttpHeaders;
@@ -63,10 +61,6 @@ public abstract class BaseIT {
         this.mockServerClient
                 .when(FEED_REQUEST)
                 .respond(HttpResponse.response().withBody(IOUtils.toString(resource, StandardCharsets.UTF_8)));
-
-        // remove when Quarkus supports Jackson 3
-        RestAssured.config =
-                RestAssured.config().objectMapperConfig(new ObjectMapperConfig(ObjectMapperType.JACKSON_2));
     }
 
     @AfterEach

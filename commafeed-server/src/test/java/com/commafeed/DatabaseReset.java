@@ -23,11 +23,7 @@ public class DatabaseReset implements QuarkusTestBeforeEachCallback {
         getBean(CommaFeedApplication.class).stop(new ShutdownEvent());
 
         // truncate all tables so that we have a clean slate for the next test
-        getBean(EntityManager.class)
-                .unwrap(Session.class)
-                .getSessionFactory()
-                .getSchemaManager()
-                .truncateMappedObjects();
+        getBean(EntityManager.class).unwrap(Session.class).getSessionFactory().getSchemaManager().truncate();
 
         // restart the application
         getBean(CommaFeedApplication.class).start(new StartupEvent());

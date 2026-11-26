@@ -5,18 +5,18 @@ import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.Data;
 
-import java.io.IOException;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.SerializationContext;
+import tools.jackson.databind.ValueDeserializer;
+import tools.jackson.databind.ValueSerializer;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonSerialize;
+
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -157,18 +157,17 @@ public class FeverResponse {
     @Data
     public static class FeverLink {}
 
-    public static class LongListToCommaSeparatedStringSerializer extends JsonSerializer<List<Long>> {
+    public static class LongListToCommaSeparatedStringSerializer extends ValueSerializer<List<Long>> {
         @Override
-        public void serialize(List<Long> input, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
-                throws IOException {
+        public void serialize(List<Long> input, JsonGenerator jsonGenerator, SerializationContext context) {
             String output = input.stream().map(String::valueOf).collect(Collectors.joining(","));
-            jsonGenerator.writeObject(output);
+            jsonGenerator.writePOJO(output);
         }
     }
 
-    public static class CommaSeparatedStringToLongListDeserializer extends JsonDeserializer<List<Long>> {
+    public static class CommaSeparatedStringToLongListDeserializer extends ValueDeserializer<List<Long>> {
         @Override
-        public List<Long> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+        public List<Long> deserialize(JsonParser p, DeserializationContext ctxt) {
             String value = ctxt.readValue(p, String.class);
             return Stream.of(value.split(",")).map(Long::valueOf).toList();
         }

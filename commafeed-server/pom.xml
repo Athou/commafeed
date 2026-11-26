@@ -19,6 +19,8 @@
         <google-java-format.version>2.0.0</google-java-format.version>
 
         <build.database>h2</build.database>
+        <!-- minimum database version supported by Hibernate, see https://docs.hibernate.org/orm/8.0/dialect/#_supported_dialects -->
+        <build.database.version>2.1.214</build.database.version>
     </properties>
 
     <dependencyManagement>
@@ -76,6 +78,10 @@
                         <property>
                             <name>quarkus.datasource.db-kind</name>
                             <value>${build.database}</value>
+                        </property>
+                        <property>
+                            <name>quarkus.datasource.db-version</name>
+                            <value>${build.database.version}</value>
                         </property>
                     </properties>
                 </configuration>
@@ -169,6 +175,7 @@
                     <systemPropertyVariables>
                         <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
                         <quarkus.datasource.db-kind>${build.database}</quarkus.datasource.db-kind>
+                        <quarkus.datasource.db-version>${build.database.version}</quarkus.datasource.db-version>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
@@ -191,6 +198,7 @@
                         </native.image.path>
                         <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
                         <quarkus.datasource.db-kind>${build.database}</quarkus.datasource.db-kind>
+                        <quarkus.datasource.db-version>${build.database.version}</quarkus.datasource.db-version>
                     </systemPropertyVariables>
                 </configuration>
                 <!-- failsafe plugin does not seem to be able to pick up dependencies declared in profiles -->
@@ -516,6 +524,7 @@
             </activation>
             <properties>
                 <build.database>h2</build.database>
+                <build.database.version>2.1.214</build.database.version>
             </properties>
             <dependencies>
                 <dependency>
@@ -528,6 +537,7 @@
             <id>mysql</id>
             <properties>
                 <build.database>mysql</build.database>
+                <build.database.version>8.0</build.database.version>
             </properties>
             <dependencies>
                 <dependency>
@@ -540,6 +550,7 @@
             <id>mariadb</id>
             <properties>
                 <build.database>mariadb</build.database>
+                <build.database.version>10.6</build.database.version>
             </properties>
             <dependencies>
                 <dependency>
@@ -552,6 +563,7 @@
             <id>postgresql</id>
             <properties>
                 <build.database>postgresql</build.database>
+                <build.database.version>15.0</build.database.version>
             </properties>
             <dependencies>
                 <dependency>

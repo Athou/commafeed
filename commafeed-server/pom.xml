@@ -13,7 +13,7 @@
     <packaging>quarkus</packaging>
 
     <properties>
-        <quarkus.version>3.40.1.2</quarkus.version>
+        <quarkus.version>4.0.1</quarkus.version>
         <rome.version>2.1.0</rome.version>
         <!-- renovate: depName=com.google.googlejavaformat:google-java-format -->
         <google-java-format.version>2.0.0</google-java-format.version>

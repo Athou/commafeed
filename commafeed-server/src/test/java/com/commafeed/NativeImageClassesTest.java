@@ -37,8 +37,27 @@ class NativeImageClassesTest {
             missingClasses.addAll(moduleClasses);
         }
 
+        // rome introspects interfaces reflectively, so every rome interface implemented by a registered class needs to
+        // be registered too
+        Set<Class<?>> missingInterfaces = new HashSet<>();
+        for (Class<?> clazz : classesInAnnotation) {
+            collectRomeInterfaces(clazz, missingInterfaces);
+        }
+        missingInterfaces.removeAll(classesInAnnotation);
+        missingClasses.addAll(missingInterfaces);
+
         missingClasses.sort(Comparator.comparing(Class::getName));
         missingClasses.forEach(c -> System.out.println(c.getName() + ".class,"));
         Assertions.assertEquals(List.of(), missingClasses);
+    }
+
+    private static void collectRomeInterfaces(Class<?> clazz, Set<Class<?>> result) {
+        for (Class<?> c = clazz; c != null; c = c.getSuperclass()) {
+            for (Class<?> itf : c.getInterfaces()) {
+                if (itf.getName().startsWith("com.rometools.") && result.add(itf)) {
+                    collectRomeInterfaces(itf, result);
+                }
+            }
+        }
     }
 }

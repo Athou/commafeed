@@ -177,6 +177,20 @@ import io.quarkus.runtime.annotations.RegisterForReflection;
             com.rometools.rome.io.WireFeedGenerator.class,
             com.rometools.rome.io.WireFeedParser.class,
 
+            // rome superclasses
+            com.rometools.modules.activitystreams.types.ActivityObject.class,
+            com.rometools.modules.georss.geometries.AbstractCurve.class,
+            com.rometools.modules.georss.geometries.AbstractGeometricPrimitive.class,
+            com.rometools.modules.georss.geometries.AbstractGeometry.class,
+            com.rometools.modules.georss.geometries.AbstractRing.class,
+            com.rometools.modules.georss.geometries.AbstractSurface.class,
+            com.rometools.modules.itunes.AbstractITunesObject.class,
+            com.rometools.modules.sse.modules.SSEModule.class,
+            com.rometools.rome.feed.WireFeed.class,
+            com.rometools.rome.feed.module.ModuleImpl.class,
+            com.rometools.rome.io.impl.BaseWireFeedGenerator.class,
+            com.rometools.rome.io.impl.BaseWireFeedParser.class,
+
             // rome modules
             com.rometools.modules.sse.modules.Conflict.class,
             com.rometools.modules.sse.modules.Conflicts.class,

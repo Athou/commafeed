@@ -37,26 +37,29 @@ class NativeImageClassesTest {
             missingClasses.addAll(moduleClasses);
         }
 
-        // rome introspects interfaces reflectively, so every rome interface implemented by a registered class needs to
-        // be registered too
-        Set<Class<?>> missingInterfaces = new HashSet<>();
+        // rome invokes methods reflectively that may be declared on a superclass or an interface, so every rome
+        // supertype of a registered class needs to be registered too
+        Set<Class<?>> missingSupertypes = new HashSet<>();
         for (Class<?> clazz : classesInAnnotation) {
-            collectRomeInterfaces(clazz, missingInterfaces);
+            collectRomeSupertypes(clazz, missingSupertypes);
         }
-        missingInterfaces.removeAll(classesInAnnotation);
-        missingClasses.addAll(missingInterfaces);
+        missingSupertypes.removeAll(classesInAnnotation);
+        missingClasses.addAll(missingSupertypes);
 
         missingClasses.sort(Comparator.comparing(Class::getName));
         missingClasses.forEach(c -> System.out.println(c.getName() + ".class,"));
         Assertions.assertEquals(List.of(), missingClasses);
     }
 
-    private static void collectRomeInterfaces(Class<?> clazz, Set<Class<?>> result) {
-        for (Class<?> c = clazz; c != null; c = c.getSuperclass()) {
-            for (Class<?> itf : c.getInterfaces()) {
-                if (itf.getName().startsWith("com.rometools.") && result.add(itf)) {
-                    collectRomeInterfaces(itf, result);
-                }
+    private static void collectRomeSupertypes(Class<?> clazz, Set<Class<?>> result) {
+        List<Class<?>> supertypes = new ArrayList<>(List.of(clazz.getInterfaces()));
+        if (clazz.getSuperclass() != null) {
+            supertypes.add(clazz.getSuperclass());
+        }
+
+        for (Class<?> supertype : supertypes) {
+            if (supertype.getName().startsWith("com.rometools.") && result.add(supertype)) {
+                collectRomeSupertypes(supertype, result);
             }
         }
     }

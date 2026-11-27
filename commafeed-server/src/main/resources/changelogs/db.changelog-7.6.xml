@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-				   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-	<changeSet id="drop-legacy-filtering-expression" author="athou">
-		<dropColumn tableName="FEEDSUBSCRIPTIONS" columnName="filtering_expression_legacy" />
-	</changeSet>
+    <changeSet id="drop-legacy-filtering-expression" author="athou">
+        <dropColumn tableName="FEEDSUBSCRIPTIONS" columnName="filtering_expression_legacy"/>
+    </changeSet>
+
+    <changeSet id="add-feedentries-content-index" author="athou">
+        <createIndex indexName="feedentries_content_index" tableName="FEEDENTRIES">
+            <column name="content_id"/>
+        </createIndex>
+    </changeSet>
 
 </databaseChangeLog>

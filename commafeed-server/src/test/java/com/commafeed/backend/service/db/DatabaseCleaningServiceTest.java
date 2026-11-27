@@ -57,6 +57,7 @@ class DatabaseCleaningServiceTest {
         Mockito.when(config.database()).thenReturn(databaseConfig);
         Mockito.when(databaseConfig.cleanup()).thenReturn(cleaningConfig);
         Mockito.when(cleaningConfig.batchSize()).thenReturn(BATCH_SIZE);
+        Mockito.when(cleaningConfig.orphanedContentsScanSize()).thenReturn(10_000);
         Mockito.when(metrics.meter(Mockito.anyString())).thenReturn(entriesDeletedMeter);
 
         Mockito.when(unitOfWork.call(Mockito.any()))
@@ -91,11 +92,26 @@ class DatabaseCleaningServiceTest {
 
     @Test
     void cleanContentsWithoutEntriesDeletesContents() {
-        Mockito.when(feedEntryContentDAO.deleteWithoutEntries(Mockito.anyInt())).thenReturn(50L, 30L, 0L);
+        Mockito.when(feedEntryContentDAO.findMaxId()).thenReturn(15_000L);
+        // first window: a full batch, then a partial batch, then move on to the next window
+        Mockito.when(feedEntryContentDAO.deleteWithoutEntries(0, 10_000, BATCH_SIZE))
+                .thenReturn((long) BATCH_SIZE, 30L);
+        Mockito.when(feedEntryContentDAO.deleteWithoutEntries(10_000, 15_000, BATCH_SIZE)).thenReturn(0L);
 
         service.cleanContentsWithoutEntries();
 
-        Mockito.verify(feedEntryContentDAO, Mockito.times(3)).deleteWithoutEntries(Mockito.anyInt());
+        Mockito.verify(feedEntryContentDAO, Mockito.times(2)).deleteWithoutEntries(0, 10_000, BATCH_SIZE);
+        Mockito.verify(feedEntryContentDAO, Mockito.times(1)).deleteWithoutEntries(10_000, 15_000, BATCH_SIZE);
+    }
+
+    @Test
+    void cleanContentsWithoutEntriesDoesNothingOnEmptyTable() {
+        Mockito.when(feedEntryContentDAO.findMaxId()).thenReturn(0L);
+
+        service.cleanContentsWithoutEntries();
+
+        Mockito.verify(feedEntryContentDAO, Mockito.never())
+                .deleteWithoutEntries(Mockito.anyLong(), Mockito.anyLong(), Mockito.anyInt());
     }
 
     @Test

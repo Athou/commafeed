@@ -8,7 +8,6 @@ import com.commafeed.backend.model.FeedEntry_;
 
 import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.criteria.JoinType;
 
 import org.hibernate.query.criteria.CriteriaDefinition;
 
@@ -34,19 +33,35 @@ public class FeedEntryContentDAO extends GenericDAO<FeedEntryContent> {
                 .getResultList();
     }
 
-    public long deleteWithoutEntries(int max) {
+    public long findMaxId() {
+        Long maxId =
+                query(
+                                new CriteriaDefinition<>(getEntityManager(), Long.class) {
+                                    {
+                                        var content = from(FeedEntryContent.class);
+                                        select(max(content.get(FeedEntryContent_.id)));
+                                    }
+                                })
+                        .getSingleResult();
+        return maxId == null ? 0 : maxId;
+    }
+
+    public long deleteWithoutEntries(long fromIdExclusive, long toIdInclusive, int max) {
         List<Long> ids =
                 query(
                                 new CriteriaDefinition<>(getEntityManager(), Long.class) {
                                     {
                                         var content = from(FeedEntryContent.class);
-                                        var entry = content.join(FeedEntry.class, JoinType.LEFT);
-                                        entry.on(
-                                                equal(
-                                                        entry.get(FeedEntry_.content).get(FeedEntryContent_.id),
-                                                        content.get(FeedEntryContent_.id)));
+                                        var subquery = subquery(Integer.class);
+                                        var entry = subquery.from(FeedEntry.class);
+                                        subquery.select(literal(1))
+                                                .where(equal(entry.get(FeedEntry_.content), content));
+
                                         select(content.get(FeedEntryContent_.id));
-                                        where(isNull(entry.get(FeedEntry_.id)));
+                                        where(
+                                                greaterThan(content.get(FeedEntryContent_.id), fromIdExclusive),
+                                                lessThanOrEqualTo(content.get(FeedEntryContent_.id), toIdInclusive),
+                                                not(exists(subquery)));
                                     }
                                 })
                         .setMaxResults(max)

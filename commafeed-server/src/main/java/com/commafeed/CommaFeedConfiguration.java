@@ -305,6 +305,14 @@ public interface CommaFeedConfiguration {
             @WithDefault("100")
             int batchSize();
 
+            /**
+             * Number of content ids to scan per query while looking for contents that are no longer referenced by any
+             * entry.
+             */
+            @Positive
+            @WithDefault("10000")
+            int orphanedContentsScanSize();
+
             /** Whether to keep starred entries when cleaning up old entries. */
             @WithDefault("true")
             boolean keepStarredEntries();

@@ -30,6 +30,7 @@ public class DatabaseCleaningService {
     private final FeedEntryContentDAO feedEntryContentDAO;
     private final FeedEntryStatusDAO feedEntryStatusDAO;
     private final int batchSize;
+    private final int orphanedContentsScanSize;
     private final boolean keepStarredEntries;
     private final Meter entriesDeletedMeter;
 
@@ -47,6 +48,7 @@ public class DatabaseCleaningService {
         this.feedEntryContentDAO = feedEntryContentDAO;
         this.feedEntryStatusDAO = feedEntryStatusDAO;
         this.batchSize = config.database().cleanup().batchSize();
+        this.orphanedContentsScanSize = config.database().cleanup().orphanedContentsScanSize();
         this.keepStarredEntries = config.database().cleanup().keepStarredEntries();
         this.entriesDeletedMeter = metrics.meter(MetricRegistry.name(getClass(), "entriesDeleted"));
     }
@@ -88,19 +90,33 @@ public class DatabaseCleaningService {
 
     public void cleanContentsWithoutEntries() {
         log.info("cleaning contents without entries");
+        long maxId = unitOfWork.call(feedEntryContentDAO::findMaxId);
+
         long total = 0;
-        long deleted;
-        do {
+        // scan the table in id ranges to keep each query bounded, regardless of the size of the table
+        for (long from = 0; from < maxId; from += orphanedContentsScanSize) {
             if (Thread.currentThread().isInterrupted()) {
                 log.info("interrupted, stopping cleanup of contents without entries");
                 return;
             }
 
-            deleted = unitOfWork.call(() -> feedEntryContentDAO.deleteWithoutEntries(batchSize));
-            total += deleted;
+            long to = Math.min(from + orphanedContentsScanSize, maxId);
+            total += cleanContentsWithoutEntries(from, to);
             log.debug("removed {} contents without entries", total);
-        } while (deleted != 0);
+        }
         log.info("cleanup done: {} contents without entries deleted", total);
+    }
+
+    private long cleanContentsWithoutEntries(long fromIdExclusive, long toIdInclusive) {
+        long total = 0;
+        long deleted;
+        do {
+            deleted =
+                    unitOfWork.call(
+                            () -> feedEntryContentDAO.deleteWithoutEntries(fromIdExclusive, toIdInclusive, batchSize));
+            total += deleted;
+        } while (deleted == batchSize);
+        return total;
     }
 
     public void cleanEntriesForFeedsExceedingCapacity(final int maxFeedCapacity) {

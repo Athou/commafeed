@@ -93,16 +93,21 @@ public class DatabaseCleaningService {
         long maxId = unitOfWork.call(feedEntryContentDAO::findMaxId);
 
         long total = 0;
-        // scan the table in id ranges to keep each query bounded, regardless of the size of the table
-        for (long from = 0; from < maxId; from += orphanedContentsScanSize) {
+        // scan the table in chunks of a fixed number of rows (keyset pagination) to keep each query bounded, regardless
+        // of the size of the table and of gaps in the id sequence
+        long from = 0;
+        while (from < maxId) {
             if (Thread.currentThread().isInterrupted()) {
                 log.info("interrupted, stopping cleanup of contents without entries");
                 return;
             }
 
-            long to = Math.min(from + orphanedContentsScanSize, maxId);
+            long cursor = from;
+            Long boundary = unitOfWork.call(() -> feedEntryContentDAO.findIdAfter(cursor, orphanedContentsScanSize));
+            long to = boundary == null ? maxId : Math.min(boundary, maxId);
             total += cleanContentsWithoutEntries(from, to);
             log.debug("removed {} contents without entries", total);
+            from = to;
         }
         log.info("cleanup done: {} contents without entries deleted", total);
     }

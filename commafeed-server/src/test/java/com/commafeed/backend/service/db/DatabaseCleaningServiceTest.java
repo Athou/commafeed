@@ -92,16 +92,33 @@ class DatabaseCleaningServiceTest {
 
     @Test
     void cleanContentsWithoutEntriesDeletesContents() {
-        Mockito.when(feedEntryContentDAO.findMaxId()).thenReturn(15_000L);
-        // first window: a full batch, then a partial batch, then move on to the next window
-        Mockito.when(feedEntryContentDAO.deleteWithoutEntries(0, 10_000, BATCH_SIZE))
+        Mockito.when(feedEntryContentDAO.findMaxId()).thenReturn(500_000L);
+        // sparse ids: the first chunk of 10_000 rows ends at id 300_000, then fewer than 10_000 rows remain
+        Mockito.when(feedEntryContentDAO.findIdAfter(0, 10_000)).thenReturn(300_000L);
+        Mockito.when(feedEntryContentDAO.findIdAfter(300_000, 10_000)).thenReturn(null);
+        // first chunk: a full batch, then a partial batch, then move on to the next chunk
+        Mockito.when(feedEntryContentDAO.deleteWithoutEntries(0, 300_000, BATCH_SIZE))
                 .thenReturn((long) BATCH_SIZE, 30L);
-        Mockito.when(feedEntryContentDAO.deleteWithoutEntries(10_000, 15_000, BATCH_SIZE)).thenReturn(0L);
+        Mockito.when(feedEntryContentDAO.deleteWithoutEntries(300_000, 500_000, BATCH_SIZE)).thenReturn(0L);
 
         service.cleanContentsWithoutEntries();
 
-        Mockito.verify(feedEntryContentDAO, Mockito.times(2)).deleteWithoutEntries(0, 10_000, BATCH_SIZE);
-        Mockito.verify(feedEntryContentDAO, Mockito.times(1)).deleteWithoutEntries(10_000, 15_000, BATCH_SIZE);
+        Mockito.verify(feedEntryContentDAO, Mockito.times(2)).deleteWithoutEntries(0, 300_000, BATCH_SIZE);
+        Mockito.verify(feedEntryContentDAO, Mockito.times(1)).deleteWithoutEntries(300_000, 500_000, BATCH_SIZE);
+        Mockito.verify(feedEntryContentDAO, Mockito.times(2)).findIdAfter(Mockito.anyLong(), Mockito.anyInt());
+    }
+
+    @Test
+    void cleanContentsWithoutEntriesDoesNotScanPastMaxId() {
+        Mockito.when(feedEntryContentDAO.findMaxId()).thenReturn(5_000L);
+        // rows inserted after the scan started must not be considered
+        Mockito.when(feedEntryContentDAO.findIdAfter(0, 10_000)).thenReturn(20_000L);
+        Mockito.when(feedEntryContentDAO.deleteWithoutEntries(0, 5_000, BATCH_SIZE)).thenReturn(0L);
+
+        service.cleanContentsWithoutEntries();
+
+        Mockito.verify(feedEntryContentDAO).deleteWithoutEntries(0, 5_000, BATCH_SIZE);
+        Mockito.verify(feedEntryContentDAO, Mockito.times(1)).findIdAfter(Mockito.anyLong(), Mockito.anyInt());
     }
 
     @Test

@@ -46,6 +46,23 @@ public class FeedEntryContentDAO extends GenericDAO<FeedEntryContent> {
         return maxId == null ? 0 : maxId;
     }
 
+    public Long findIdAfter(long fromIdExclusive, int count) {
+        return query(
+                        new CriteriaDefinition<>(getEntityManager(), Long.class) {
+                            {
+                                var content = from(FeedEntryContent.class);
+                                select(content.get(FeedEntryContent_.id));
+                                where(greaterThan(content.get(FeedEntryContent_.id), fromIdExclusive));
+                                orderBy(asc(content.get(FeedEntryContent_.id)));
+                            }
+                        })
+                .setFirstResult(count - 1)
+                .setMaxResults(1)
+                .getResultStream()
+                .findFirst()
+                .orElse(null);
+    }
+
     public long deleteWithoutEntries(long fromIdExclusive, long toIdInclusive, int max) {
         List<Long> ids =
                 query(

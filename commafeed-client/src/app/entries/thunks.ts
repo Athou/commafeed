@@ -93,10 +93,15 @@ export const markMultipleEntries = createAppAsyncThunk(
         },
         thunkApi
     ) => {
-        const requests: MarkRequest[] = arg.entries.map(e => ({
-            id: e.id,
-            read: arg.read,
-        }))
+        // skip entries that are already in the desired state
+        const requests: MarkRequest[] = arg.entries
+            .filter(e => e.markable && e.read !== arg.read)
+            .map(e => ({
+                id: e.id,
+                read: arg.read,
+            }))
+        if (requests.length === 0) return
+
         await client.entry.markMultiple({ requests })
         thunkApi.dispatch(reloadTree())
     }

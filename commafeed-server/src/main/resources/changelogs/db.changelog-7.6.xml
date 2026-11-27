@@ -13,4 +13,35 @@
         </createIndex>
     </changeSet>
 
+    <changeSet id="add-missing-fk-indexes" author="athou">
+        <createIndex indexName="feedsubscriptions_feed_index" tableName="FEEDSUBSCRIPTIONS">
+            <column name="feed_id"/>
+        </createIndex>
+        <createIndex indexName="feedsubscriptions_user_feed_index" tableName="FEEDSUBSCRIPTIONS">
+            <column name="user_id"/>
+            <column name="feed_id"/>
+        </createIndex>
+        <createIndex indexName="feedsubscriptions_category_index" tableName="FEEDSUBSCRIPTIONS">
+            <column name="category_id"/>
+        </createIndex>
+        <createIndex indexName="feedentrytags_entry_index" tableName="FEEDENTRYTAGS">
+            <column name="entry_id"/>
+        </createIndex>
+        <createIndex indexName="feedcategories_user_index" tableName="FEEDCATEGORIES">
+            <column name="user_id"/>
+        </createIndex>
+        <createIndex indexName="feedcategories_parent_index" tableName="FEEDCATEGORIES">
+            <column name="parent_id"/>
+        </createIndex>
+        <createIndex indexName="userroles_user_index" tableName="USERROLES">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="add-feedentries-updated-index" author="athou">
+        <createIndex indexName="feedentries_updated_index" tableName="FEEDENTRIES">
+            <column name="updated"/>
+        </createIndex>
+    </changeSet>
+
 </databaseChangeLog>

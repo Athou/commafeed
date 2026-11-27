@@ -44,6 +44,10 @@
         </createIndex>
     </changeSet>
 
+    <changeSet id="drop-last-content-hash-index" author="athou">
+        <dropIndex tableName="FEEDS" indexName="last_content_hash_index"/>
+    </changeSet>
+
     <changeSet id="add-feedentries-updated-index" author="athou">
         <createIndex indexName="feedentries_updated_index" tableName="FEEDENTRIES">
             <column name="updated"/>

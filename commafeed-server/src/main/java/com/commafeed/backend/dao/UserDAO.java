@@ -8,6 +8,7 @@ import jakarta.inject.Singleton;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.metamodel.SingularAttribute;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.query.criteria.CriteriaDefinition;
 
 @Singleton
@@ -22,7 +23,15 @@ public class UserDAO extends GenericDAO<User> {
     }
 
     public User findByApiKey(String key) {
-        return findByIgnoreCase(User_.apiKey, key);
+        // api keys are generated as lowercase hex, compare exactly with the lowercased input so the index can be used
+        return query(
+                        new CriteriaDefinition<>(getEntityManager(), User.class) {
+                            {
+                                var user = from(User.class);
+                                where(equal(user.get(User_.apiKey), StringUtils.lowerCase(key)));
+                            }
+                        })
+                .getSingleResultOrNull();
     }
 
     public User findByEmail(String email) {

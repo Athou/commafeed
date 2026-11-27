@@ -186,6 +186,13 @@ class FeverIT extends BaseIT {
     }
 
     @Test
+    void favicons() {
+        subscribe(getFeedUrl());
+        FeverResponse feverResponse = client.execute("favicons");
+        Assertions.assertTrue(feverResponse.getFavicons().isEmpty());
+    }
+
+    @Test
     void links() {
         FeverResponse feverResponse = client.execute("links");
         Assertions.assertTrue(feverResponse.getLinks().isEmpty());

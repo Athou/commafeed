@@ -4,7 +4,6 @@ import com.commafeed.backend.dao.FeedCategoryDAO;
 import com.commafeed.backend.dao.FeedEntryDAO;
 import com.commafeed.backend.dao.FeedEntryStatusDAO;
 import com.commafeed.backend.dao.FeedSubscriptionDAO;
-import com.commafeed.backend.favicon.Favicon;
 import com.commafeed.backend.model.Feed;
 import com.commafeed.backend.model.FeedCategory;
 import com.commafeed.backend.model.FeedEntry;
@@ -13,9 +12,7 @@ import com.commafeed.backend.model.FeedSubscription;
 import com.commafeed.backend.model.User;
 import com.commafeed.backend.model.UserSettings.ReadingOrder;
 import com.commafeed.backend.service.FeedEntryService;
-import com.commafeed.backend.service.FeedFaviconService;
 import com.commafeed.backend.service.UserService;
-import com.commafeed.frontend.resource.fever.FeverResponse.FeverFavicon;
 import com.commafeed.frontend.resource.fever.FeverResponse.FeverFeed;
 import com.commafeed.frontend.resource.fever.FeverResponse.FeverFeedGroup;
 import com.commafeed.frontend.resource.fever.FeverResponse.FeverGroup;
@@ -44,7 +41,6 @@ import org.jboss.resteasy.reactive.server.multipart.MultipartFormDataInput;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -81,7 +77,6 @@ public class FeverREST {
 
     private final UserService userService;
     private final FeedEntryService feedEntryService;
-    private final FeedFaviconService feedFaviconService;
     private final FeedEntryDAO feedEntryDAO;
     private final FeedSubscriptionDAO feedSubscriptionDAO;
     private final FeedCategoryDAO feedCategoryDAO;
@@ -196,7 +191,9 @@ public class FeverREST {
         }
 
         if (params.containsKey("favicons")) {
-            resp.setFavicons(buildFavicons(subscriptions));
+            // favicons are not supported: fetching them performs http requests that are too slow to be done during
+            // the request, clients fall back to their own icons
+            resp.setFavicons(Collections.emptyList());
         }
 
         if (params.containsKey("links")) {
@@ -341,22 +338,6 @@ public class FeverREST {
         i.setRead(s.isRead());
         i.setCreatedOnTime(s.getEntryPublished().getEpochSecond());
         return i;
-    }
-
-    private List<FeverFavicon> buildFavicons(List<FeedSubscription> subscriptions) {
-        return subscriptions.stream()
-                .map(s -> {
-                    Favicon favicon = feedFaviconService.fetchFavicon(s.getFeed());
-
-                    FeverFavicon f = new FeverFavicon();
-                    f.setId(s.getFeed().getId());
-                    f.setData(
-                            String.format(
-                                    "data:%s;base64,%s",
-                                    favicon.mediaType(), Base64.getEncoder().encodeToString(favicon.icon())));
-                    return f;
-                })
-                .toList();
     }
 
     private void mark(User user, String source, long id, String action, Instant insertedBefore) {
